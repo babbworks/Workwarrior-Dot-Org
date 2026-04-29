@@ -1,0 +1,134 @@
+---
+layout: experience
+title: The Story
+permalink: /story
+---
+
+<h1>The Story</h1>
+
+<p class="exp-lede">
+  Workwarrior started as a personal system. It became a project when the personal system
+  got complicated enough that it needed to be engineered. Here's how we got here.
+</p>
+
+<h2>The Problem It Solved</h2>
+
+<p>
+  The immediate problem was context bleeding. Work tasks showing up in personal task views.
+  Personal time tracking mixing with client billable hours. Journal entries about one project
+  surfacing when searching another. These aren't edge cases — they happen the moment you have
+  more than one serious work context in your life.
+</p>
+<p>
+  The fix — profile isolation — sounds obvious in retrospect. One directory per context.
+  Environment variables that all tools read. <code>p-work</code> to switch in, <code>p-personal</code>
+  to switch out. No tool knows the others exist. No tool knows Workwarrior exists.
+</p>
+<p>
+  That's the core. Everything else is a consequence of having the core right.
+</p>
+
+<h2>Why Not Build New Tools</h2>
+
+<p>
+  TaskWarrior has a user-defined attributes system sophisticated enough to model almost any
+  data schema. Hledger implements a 50-year-old accounting standard that hasn't needed reinventing.
+  JRNL handles plain text journals with the right amount of structure. These tools exist because
+  people built them carefully over years and released them.
+</p>
+<p>
+  Building replacements would mean rebuilding all that and maintaining it. Wrapping means
+  the tools stay excellent while the integration layer — the only part that didn't exist —
+  gets built once.
+</p>
+<p>
+  The wrapper needs to stay thin. When it gets thick, it's usually because a tool needed
+  patching rather than wrapping. Those cases get contributed upstream when possible.
+</p>
+
+<h2>The Heuristic Engine</h2>
+
+<p>
+  The natural language command layer started as a proof of concept: could you type something
+  like "add a task to review the budget due friday" and have it work without an LLM?
+</p>
+<p>
+  The answer turned out to be: yes, for most things, if you compile enough rules. 627 regex
+  patterns across 19 command domains, with 6 phrasing variations per command. The compiler
+  scans the codebase for command definitions, generates patterns, validates them against a
+  synthetic corpus, and writes the output.
+</p>
+<p>
+  The key design decision was the fallback order: heuristics first, always. AI is optional
+  and opt-in. If you never configure an LLM, the heuristic engine handles everything it can
+  handle, and the things it can't handle fail loudly rather than silently sending data to a
+  third-party API.
+</p>
+<p>
+  The self-improvement loop came later: every CMD submission is logged. Run
+  <code>ww compile-heuristics --digest</code> and it reads that log, finds the AI translations
+  that worked, and converts them into new heuristic rules. Over time, the AI fallback handles
+  less. The heuristic engine handles more.
+</p>
+
+<h2>The Browser UI</h2>
+
+<p>
+  The browser UI was the feature that surprised us. The assumption going in was that terminal
+  people would want to stay in the terminal. The assumption turned out to be wrong — or at least
+  incomplete. Having a dashboard that shows tasks, time, journal, and ledger simultaneously,
+  that accepts natural language commands, that updates in real time when you switch profiles
+  from the CLI, that runs locally on a standard library Python server — that turned out to be
+  more useful than expected.
+</p>
+<p>
+  The constraint that made it work: no npm. No build step. No external dependencies. Python 3
+  stdlib only. If someone can run Python, they can run the browser UI. The static files serve
+  directly from disk. The SSE endpoint holds open connections for real-time updates.
+  The REST API is 20 endpoints over a <code>ThreadingHTTPServer</code>.
+</p>
+<p>
+  Security boundary: an <code>ALLOWED_SUBCOMMANDS</code> frozenset validates every POST /cmd
+  request. No <code>sh -c</code>. No eval. First token must be a known ww subcommand. A browser
+  UI that executes arbitrary shell commands is a remote code execution vulnerability. This one doesn't.
+</p>
+
+<h2>The System</h2>
+
+<p>
+  The project developed an internal coordination model — a set of agent roles, gate contracts,
+  and a fragility register — that turned out to be the right way to manage a bash codebase
+  with 24 library files and a sync engine that touches bidirectional external state.
+</p>
+<p>
+  The sync engine (10 files, HIGH fragility classification) is the most dangerous part of the
+  codebase. Getting it wrong means data loss in both TaskWarrior and GitHub. Every change to
+  those files requires an extended risk brief, explicit write scope, and Verifier sign-off
+  before merge. Not because we're bureaucratic — because the failure modes are irreversible.
+</p>
+<p>
+  That same agent model ships as <code>ww mcp install</code> — an MCP server that makes the
+  Workwarrior control plane available to any AI agent. The model that builds Workwarrior
+  is the same model you can use to manage your own projects.
+</p>
+
+<h2>Where It's Going</h2>
+
+<p>
+  The extension system and weapons roadmap (Bat, Fire, Slingshot) represent the next phase.
+  The core is stable. The integration layer is mature. The next work is at the edges: more
+  weapons, a richer extension registry, better tooling for people who want to build services
+  on top of the Workwarrior architecture.
+</p>
+<p>
+  The standard — <code>ww-standard</code> on GitHub — is the canonical technical specification
+  for what Workwarrior is and how it works. When WW ships to users, it ships with references
+  to that standard. The standard is open. The architecture is open. The whole thing is as
+  open source as it gets.
+</p>
+
+<p style="margin-top:40px;font-size:0.85rem;font-family:var(--font-mono)">
+  <a href="/" style="color:var(--accent-dim)">← home</a>
+  &nbsp;&middot;&nbsp;
+  <a href="/the-stack" style="color:var(--accent-dim)">read: the stack →</a>
+</p>

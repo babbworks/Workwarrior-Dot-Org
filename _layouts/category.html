@@ -1,0 +1,31 @@
+---
+layout: default
+---
+
+<div class="wrapper">
+  <div class="page-wrapper">
+    <div class="category-header">
+      <p class="cat-eyebrow">Category</p>
+      <h1>{{ page.category }}</h1>
+    </div>
+
+    {% assign cat_posts = site.categories[page.category] %}
+    {% if cat_posts.size > 0 %}
+    <ul class="updates-list">
+      {% for post in cat_posts %}
+      <li>
+        <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {% if post.excerpt %}
+        <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        {% endif %}
+        <div class="post-meta-row">
+          <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p style="color:var(--text-muted)">No posts in this category yet.</p>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,43 @@
+title: workwarrior
+email: workwarrior@babb.tel
+description: >-
+  Five open-source tools. One command surface. Profile-isolated workspaces for the terminal-first operator.
+baseurl: ""
+url: "https://workwarrior.org"
+
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+minima:
+  navigation:
+    - title: "Install"
+      url: "/install"
+    - title: "Docs"
+      url: "/docs"
+    - title: "System"
+      url: "/system"
+    - title: "Extensions"
+      url: "/extensions"
+    - title: "Updates"
+      url: "/updates"
+    - title: "—"
+      url: ""
+      type: separator
+    - title: "The Stack"
+      url: "/the-stack"
+      type: experience
+    - title: "Story"
+      url: "/story"
+      type: experience
+
+permalink: /:year/:month/:day/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post

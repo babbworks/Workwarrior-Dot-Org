@@ -1,0 +1,26 @@
+---
+layout: default
+---
+
+<div class="wrapper">
+  <div class="post-wrapper">
+    <header class="post-header">
+      <h1>{{ page.title | escape }}</h1>
+      <div class="post-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+        {% if page.categories %}
+          {% for cat in page.categories %}
+            <a class="cat-tag" href="/categories/{{ cat | slugify }}">{{ cat }}</a>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </header>
+    <div class="post-content">
+      {{ content }}
+    </div>
+    <hr>
+    <p style="font-size:0.85rem;color:var(--text-light);font-family:var(--font-mono)">
+      <a href="/updates" style="color:var(--accent-dim)">← all updates</a>
+    </p>
+  </div>
+</div>

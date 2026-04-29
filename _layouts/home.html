@@ -1,0 +1,300 @@
+---
+layout: default
+---
+
+<!-- HERO -->
+<section class="home-hero">
+  <div class="wrapper">
+    <p class="hero-prompt">ww profile create work &amp;&amp; p-work</p>
+    <h1>Five tools.<br><em>One command surface.</em></h1>
+    <p class="hero-lead">
+      Workwarrior wraps TaskWarrior, TimeWarrior, JRNL, Hledger, and Bugwarrior into a single
+      profile-based system. Switch contexts instantly. Nothing bleeds between profiles.
+    </p>
+    <div class="hero-ctas">
+      <a href="/install" class="btn btn-primary">Install</a>
+      <a href="/docs" class="btn btn-secondary">Documentation</a>
+      <a href="/updates" class="btn btn-secondary">Updates</a>
+      <a href="https://github.com/babbworks/ww-standard" class="btn btn-secondary">GitHub</a>
+    </div>
+    <div class="hero-quickstart">
+      <div class="qs-inner">
+        <div class="qs-line"><span class="prompt">$</span><span class="cmd">ww profile create work</span><span class="comment"># isolated workspace</span></div>
+        <div class="qs-line"><span class="prompt">$</span><span class="cmd">p-work</span><span class="comment"># activate — all tools follow</span></div>
+        <div class="qs-blank"></div>
+        <div class="qs-line"><span class="prompt">$</span><span class="cmd">task add "Ship the API" project:backend priority:H due:friday</span></div>
+        <div class="qs-line"><span class="prompt">$</span><span class="cmd">j "Sprint 12 kicked off — targeting Friday"</span></div>
+        <div class="qs-line"><span class="prompt">$</span><span class="cmd">timew start backend sprint</span></div>
+        <div class="qs-line"><span class="prompt">$</span><span class="cmd">l balance</span></div>
+        <div class="qs-blank"></div>
+        <div class="qs-line"><span class="prompt">$</span><span class="cmd">ww browser</span><span class="comment"># local UI, no cloud, no npm</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS BAND -->
+<div class="home-tools">
+  <div class="wrapper">
+    <span class="tools-label">Wraps</span>
+    <span class="tools-arrow">→</span>
+    <a href="https://taskwarrior.org" class="tool-chip" target="_blank" rel="noopener">taskwarrior</a>
+    <a href="https://timewarrior.net" class="tool-chip" target="_blank" rel="noopener">timewarrior</a>
+    <a href="https://jrnl.sh" class="tool-chip" target="_blank" rel="noopener">jrnl</a>
+    <a href="https://hledger.org" class="tool-chip" target="_blank" rel="noopener">hledger</a>
+    <a href="https://github.com/GothenburgBitFactory/bugwarrior" class="tool-chip" target="_blank" rel="noopener">bugwarrior</a>
+    <span class="tools-arrow" style="margin-left:8px">→</span>
+    <span class="tool-chip ww-chip">ww</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT + SIDEBAR -->
+<div class="wrapper">
+  <div class="home-main">
+    <div class="home-body">
+
+      <span class="section-label">01 — Why It Exists</span>
+      <h2>Most productivity stacks are five apps that don't know each other.</h2>
+      <p>
+        Task managers don't track time. Time trackers don't do accounting. Journals live in
+        a separate app. Ledgers in another. And none of them understand that you might have
+        three completely different work contexts — client work, personal projects, a side business —
+        that should never touch each other.
+      </p>
+      <p>
+        Workwarrior doesn't replace these tools. It orchestrates them. Each tool is best-in-class
+        at what it does. Workwarrior adds profile isolation, unified commands, a browser UI,
+        natural language input, and a growing service layer — without any of the tools knowing
+        the others exist.
+      </p>
+
+      <span class="section-label">02 — Profile Isolation</span>
+      <h2>Switch contexts. Not configs.</h2>
+      <p>
+        A profile is a directory. Activating it sets environment variables. Every tool — TaskWarrior,
+        TimeWarrior, JRNL, Hledger — reads those env vars automatically. No symlinks. No config
+        switching. No path hacking. <code>p-work</code> puts you in your work context.
+        <code>p-personal</code> switches you out. Backup is <code>tar</code>. Restore is <code>untar</code>.
+      </p>
+      <p>
+        Profiles support multiple named journals, multiple named ledgers, and carry their own
+        UDA definitions, urgency tuning, and service configs. Groups let you batch-operate across
+        profiles with a single command.
+      </p>
+
+      <span class="section-label">03 — Natural Language</span>
+      <h2>627 rules before it ever touches an LLM.</h2>
+      <p>
+        The CMD service translates plain English into tool commands. It tries 627 compiled
+        heuristic regex rules first — no network, no latency, no model needed. Only if nothing
+        matches does it fall through to an optional local LLM (ollama) or remote provider.
+      </p>
+      <p>
+        The heuristic engine is self-improving: every CMD submission is logged, and
+        <code>ww compile-heuristics --digest</code> converts successful AI translations into new
+        rules. Over time, more goes through heuristics. AI dependency decreases.
+      </p>
+
+      <span class="section-label">04 — The Browser UI</span>
+      <h2>Local. No npm. Python 3 stdlib only.</h2>
+      <p>
+        <code>ww browser</code> starts a locally-served web interface on <code>localhost:7777</code>.
+        15+ panels cover tasks, time, journals, ledgers, a unified command input, AI controls,
+        GitHub sync status, and a weapons bar. Server-Sent Events push profile changes to the
+        browser in real time. Static files served from disk — changes visible on refresh, no
+        restart needed.
+      </p>
+
+    </div>
+
+    <aside class="home-sidebar">
+      <div class="sidebar-box">
+        <h3>Quick Reference</h3>
+        <ul>
+          <li>
+            <a href="/install">Installation</a>
+            <span class="s-meta">macOS + Linux, brew / apt / dnf</span>
+          </li>
+          <li>
+            <a href="/docs">Getting Started</a>
+            <span class="s-meta">First profile, first tasks</span>
+          </li>
+          <li>
+            <a href="/docs#profiles">Profiles</a>
+            <span class="s-meta">Isolation, UDAs, backup/restore</span>
+          </li>
+          <li>
+            <a href="/docs#heuristics">Heuristic Engine</a>
+            <span class="s-meta">627 rules, compound commands</span>
+          </li>
+          <li>
+            <a href="/docs#browser">Browser UI</a>
+            <span class="s-meta">Local, no cloud, SSE</span>
+          </li>
+          <li>
+            <a href="/docs#github">GitHub Sync</a>
+            <span class="s-meta">Two-way task ↔ issue sync</span>
+          </li>
+          <li>
+            <a href="/extensions">Extensions</a>
+            <span class="s-meta">TaskWarrior + TimeWarrior ecosystem</span>
+          </li>
+          <li>
+            <a href="/system">System / Control Plane</a>
+            <span class="s-meta">Agent model, fragility register</span>
+          </li>
+        </ul>
+        <a href="/docs" class="box-more">Full documentation →</a>
+      </div>
+
+      <div class="sidebar-box posts-box">
+        <h3>Recent Updates</h3>
+        <ul>
+          {% for post in site.posts limit:5 %}
+          <li>
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            <span class="p-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <a href="/updates" class="box-more">All updates →</a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- SERVICES GRID -->
+<section class="home-services">
+  <div class="wrapper">
+    <div class="services-header">
+      <h2>Service Architecture</h2>
+      <span class="services-count">25+ domains</span>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="svc-cmd">ww profile</div>
+        <p>Create, list, info, delete, backup, import, restore, UDA management, urgency tuning, density scoring</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww browser</div>
+        <p>Locally-served web UI — 15+ panels, SSE real-time, no cloud, Python 3 stdlib only</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww issues</div>
+        <p>Two-way GitHub sync + Bugwarrior pull from 20+ services (GitHub, GitLab, Jira, Trello...)</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww compile-heuristics</div>
+        <p>Recompile NL→command rules. Self-improving via <code>--digest</code> analysis of CMD log</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww find</div>
+        <p>Cross-profile search across tasks, time records, journal entries, and ledger data</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww model</div>
+        <p>LLM provider and model registry — provider add/remove, model set-default, fallback chains</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww questions</div>
+        <p>Template-based capture workflows — structured prompts that write to tasks, journal, or ledger</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww export</div>
+        <p>Profile data export in JSON, CSV, or markdown — full or filtered by resource type</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-cmd">ww extensions</div>
+        <p>Extension registry for TaskWarrior hooks, TimeWarrior extensions — list, search, install</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEM / CONTROL PLANE -->
+<section class="home-system">
+  <div class="wrapper">
+    <span class="system-eyebrow">Control Plane</span>
+    <h2>The system behind the system.</h2>
+    <p style="color:var(--text-muted);font-size:0.95rem;max-width:600px;margin-bottom:0">
+      <code>ww/system</code> is the project's control plane — an internal coordination layer built on the same
+      agent-based development model that ships as optional MCP tooling for users. Not just documentation:
+      a formal fragility register, gate-guarded merge contracts, role assignments, and a canonical task board.
+    </p>
+    <div class="system-grid">
+      <div class="system-item">
+        <h4>Orchestrator / Builder / Verifier / Docs</h4>
+        <p>Four always-active agent roles. No agent self-approves. Orchestrator never writes production code. Verifier never writes production code.</p>
+      </div>
+      <div class="system-item">
+        <h4>Fragility Register</h4>
+        <p>The sync engine (10 lib files) is classified HIGH FRAGILITY. Changes require extended risk briefs and integration tests before merge.</p>
+      </div>
+      <div class="system-item">
+        <h4>Gate Model</h4>
+        <p>Gate A (spec complete), Gate B (implementation ready), Gate C (tests pass), Gate D (docs updated). No skipping gates.</p>
+      </div>
+      <div class="system-item">
+        <h4>Shell Standards</h4>
+        <p><code>#!/usr/bin/env bash</code> + <code>set -euo pipefail</code> on every script. Absolute paths always. Exit codes 0/1/2 enforced.</p>
+      </div>
+    </div>
+    <p style="margin-top:28px"><a href="/system" class="btn btn-ghost">Read the system docs →</a></p>
+  </div>
+</section>
+
+<!-- OPEN SOURCE ACKNOWLEDGEMENTS -->
+<section class="home-oss">
+  <div class="wrapper">
+    <span class="system-eyebrow" style="color:var(--accent)">Built on the shoulders of</span>
+    <h2>We didn't build the tools. We wired them together.</h2>
+    <p style="color:var(--text-muted);font-size:0.95rem;max-width:600px">
+      Workwarrior is as open source as it gets — a CLI layer and browser layer on top of a set of tools
+      that are already excellent. We acknowledge the creators, document the connections, and celebrate
+      the adaptations. The whole thing only works because these projects exist.
+    </p>
+    <div class="oss-tools">
+      <a href="https://taskwarrior.org" class="oss-tool" target="_blank" rel="noopener">
+        <span class="oss-name">TaskWarrior</span>
+        <span class="oss-role">Task management, UDAs, urgency engine, hooks system</span>
+      </a>
+      <a href="https://timewarrior.net" class="oss-tool" target="_blank" rel="noopener">
+        <span class="oss-name">TimeWarrior</span>
+        <span class="oss-role">Time tracking, intervals, reports, summaries</span>
+      </a>
+      <a href="https://jrnl.sh" class="oss-tool" target="_blank" rel="noopener">
+        <span class="oss-name">JRNL</span>
+        <span class="oss-role">Journal entries, multi-journal, date search</span>
+      </a>
+      <a href="https://hledger.org" class="oss-tool" target="_blank" rel="noopener">
+        <span class="oss-name">Hledger</span>
+        <span class="oss-role">Double-entry accounting, balance sheets, income statements</span>
+      </a>
+      <a href="https://github.com/GothenburgBitFactory/bugwarrior" class="oss-tool" target="_blank" rel="noopener">
+        <span class="oss-name">Bugwarrior</span>
+        <span class="oss-role">Issue pull from GitHub, GitLab, Jira, and 20+ services</span>
+      </a>
+      <a href="https://github.com/hamzamohdzubair/taskgun" class="oss-tool" target="_blank" rel="noopener">
+        <span class="oss-name">taskgun</span>
+        <span class="oss-role">Bulk task series generation — powers the Gun weapon</span>
+      </a>
+    </div>
+    <p style="margin-top:28px"><a href="/the-stack" class="btn btn-green">Read: The Stack →</a></p>
+  </div>
+</section>
+
+<!-- EXPERIENCE READS -->
+<section class="home-reads">
+  <div class="wrapper">
+    <a href="/the-stack" class="read-card">
+      <span class="rc-label">Read</span>
+      <h3>The Stack</h3>
+      <p>Every tool Workwarrior wraps, why it was chosen, and what it brings to the system. A field guide to the open source foundation.</p>
+    </a>
+    <a href="/story" class="read-card">
+      <span class="rc-label">Read</span>
+      <h3>The Story</h3>
+      <p>How Workwarrior started, why the profile model is the key architectural decision, and where the project is going.</p>
+    </a>
+  </div>
+</section>

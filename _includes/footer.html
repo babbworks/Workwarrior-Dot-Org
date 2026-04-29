@@ -1,0 +1,69 @@
+<div class="site-footer-wrap">
+  <div class="footer-tab">
+    <button id="footer-btn" aria-expanded="false" aria-controls="footer-drawer">workwarrior ▲</button>
+  </div>
+  <div class="footer-drawer" id="footer-drawer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="/install">Install</a></li>
+          <li><a href="/docs">Getting Started</a></li>
+          <li><a href="/docs#profiles">Profiles</a></li>
+          <li><a href="/docs#browser">Browser UI</a></li>
+          <li><a href="/docs#heuristics">Heuristic Engine</a></li>
+          <li><a href="/extensions">Extensions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>System</h4>
+        <ul>
+          <li><a href="/system">Control Plane</a></li>
+          <li><a href="/system#services">Services</a></li>
+          <li><a href="/system#weapons">Weapons</a></li>
+          <li><a href="/system#agents">Agent Model</a></li>
+          <li><a href="https://github.com/babbworks/ww-standard">ww-standard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Updates</h4>
+        <ul>
+          {% for post in site.posts limit:4 %}
+          <li>
+            <a href="{{ post.url | relative_url }}">{{ post.title | truncate: 36 }}</a>
+            <span class="f-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://babb.tel">babb.tel</a><span class="f-meta">Made by Babb</span></li>
+          <li><a href="https://workpads.org">workpads.org</a><span class="f-meta">Related product</span></li>
+          <li><a href="https://basics.babb.tel">basics.babb.tel</a><span class="f-meta">BASICS Standard</span></li>
+          <li><a href="https://github.com/babbworks/ww-standard">GitHub</a><span class="f-meta">Source &amp; standard</span></li>
+          <li><a href="/updates">Updates</a></li>
+          <li><a href="/feed.xml">RSS</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>workwarrior &middot; a Babb project &middot; workwarrior@babb.tel</span>
+      <span>open source</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var btn = document.getElementById('footer-btn');
+  var drawer = document.getElementById('footer-drawer');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', function () {
+    var open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = 'workwarrior ' + (open ? '▼' : '▲');
+  });
+})();
+</script>

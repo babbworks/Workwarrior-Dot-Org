@@ -1,0 +1,158 @@
+---
+layout: experience
+title: The Stack
+permalink: /the-stack
+---
+
+<h1>The Stack</h1>
+
+<p class="exp-lede">
+  Workwarrior doesn't compete with these tools. It depends on them. Each one does exactly one
+  thing well, has years of active development behind it, and is trusted by people who take
+  their work seriously. Here's what they are and what they bring.
+</p>
+
+<h2>TaskWarrior</h2>
+
+<div class="tool-section">
+  <span class="tool-name">TaskWarrior</span>
+  <span class="tool-author">Göteborg Bit Factory · taskwarrior.org</span>
+  <p>
+    The core. TaskWarrior is a command-line task manager with a data model sophisticated enough
+    to run a business on: projects, tags, priorities, due dates, scheduled dates, urgency scoring,
+    dependency chains, recurring tasks, and a User Defined Attributes system that lets you add
+    arbitrary typed fields to every task.
+  </p>
+  <p>
+    The urgency engine scores every task by combining due date proximity, priority, age, project
+    weight, tag coefficients, and UDA values into a single urgency number. The most urgent task
+    floats to the top of every list. You can tune the coefficients per-profile.
+  </p>
+  <p>
+    The hooks system is what makes Workwarrior's integration possible. <code>on-modify</code> hooks
+    fire when any task changes — that's how time tracking auto-starts when you <code>task start</code>.
+    The hooks interface is stable, documented, and designed for this kind of extension.
+  </p>
+</div>
+
+<h2>TimeWarrior</h2>
+
+<div class="tool-section">
+  <span class="tool-name">TimeWarrior</span>
+  <span class="tool-author">Göteborg Bit Factory · timewarrior.net</span>
+  <p>
+    TimeWarrior tracks time intervals with tags. You start a tracking interval with <code>timew start tag1 tag2</code>
+    and stop it with <code>timew stop</code>. The data is a flat file of intervals that you can
+    query, filter, and report on. Reports include daily totals, weekly summaries, filtered breakdowns
+    by tag.
+  </p>
+  <p>
+    From the same team as TaskWarrior, so the data models are designed to work together. The task
+    <code>on-modify</code> hook bridges them: start a task, time tracking starts. Stop or complete
+    the task, time tracking stops.
+  </p>
+</div>
+
+<h2>JRNL</h2>
+
+<div class="tool-section">
+  <span class="tool-name">JRNL</span>
+  <span class="tool-author">jrnl.sh · open source</span>
+  <p>
+    A command-line journal. Entries are timestamped, searchable, filterable by date and tag,
+    and stored as plain text. You can maintain multiple named journals in one installation.
+  </p>
+  <p>
+    The multi-journal support is exactly what Workwarrior's per-profile journal system uses.
+    One profile can have a <code>strategy</code> journal and an <code>engineering</code> journal
+    and a <code>standup</code> journal, each mapping to a different file, each searchable
+    independently. The <code>j</code> shell function selects the right journal based on what's
+    active.
+  </p>
+</div>
+
+<h2>Hledger</h2>
+
+<div class="tool-section">
+  <span class="tool-name">Hledger</span>
+  <span class="tool-author">Simon Michael · hledger.org</span>
+  <p>
+    Double-entry accounting for the command line. Hledger implements the plain text accounting
+    format — transactions are written in a human-readable ledger file, and the tool produces
+    balance sheets, income statements, register reports, and account trees.
+  </p>
+  <p>
+    It's overkill for tracking coffee expenses and exactly right for running a small business
+    or freelance operation. Per-profile ledger files mean your business finances never mix with
+    your personal accounts. Multiple named ledgers per profile let you separate by entity
+    or purpose.
+  </p>
+</div>
+
+<h2>Bugwarrior</h2>
+
+<div class="tool-section">
+  <span class="tool-name">Bugwarrior</span>
+  <span class="tool-author">GothenburgBitFactory · GitHub</span>
+  <p>
+    One-way pull from 20+ issue tracking services into TaskWarrior. GitHub, GitLab, Jira, Trello,
+    Bitbucket, Taiga, Pagure — configure it once per profile and run <code>i pull</code> to
+    bring all your open issues into your local task list.
+  </p>
+  <p>
+    Combined with the two-way <code>ww github-sync</code> engine, you get a complete picture:
+    Bugwarrior pulls everything from all services, github-sync keeps the individual tasks you've
+    explicitly linked in sync in both directions.
+  </p>
+</div>
+
+<h2>taskgun</h2>
+
+<div class="tool-section">
+  <span class="tool-name">taskgun</span>
+  <span class="tool-author">hamzamohdzubair · GitHub · written in Rust</span>
+  <p>
+    Bulk task series generator. Give it a series definition and it creates multiple related tasks
+    with deadline spacing. Workwarrior wraps this as the <code>ww gun</code> weapon — the
+    only weapon that delegates to an external binary rather than being native to <code>ww</code>.
+  </p>
+</div>
+
+<h2>taskcheck / taskwarrior-tui</h2>
+
+<div class="tool-section">
+  <span class="tool-name">taskcheck + taskwarrior-tui</span>
+  <span class="tool-author">Community projects</span>
+  <p>
+    <code>taskcheck</code> powers the <code>ww schedule</code> weapon — auto-assignment of
+    time blocks to tasks. <code>taskwarrior-tui</code> is a full-screen terminal UI for
+    TaskWarrior, installable via <code>ww tui install</code> as an optional complement to
+    the browser UI for people who live in the terminal.
+  </p>
+</div>
+
+<hr>
+
+<h2>The Philosophy</h2>
+
+<p>
+  Every tool in this stack has a community, a changelog, and maintainers who care about it.
+  TaskWarrior is approaching its 20th year. Hledger is over 15 years old. These are not
+  projects that will disappear next year.
+</p>
+<p>
+  Workwarrior's bet is that wrapping stable, excellent tools is better than rebuilding them.
+  The wrapper adds value at the layer where the tools don't talk to each other: profile
+  isolation, unified command surface, natural language translation, browser UI, sync engines.
+  Everything else comes from the tools themselves.
+</p>
+<p>
+  When a tool improves — new TaskWarrior report format, new TimeWarrior extension API —
+  Workwarrior benefits automatically. The integration layer gets to stay thin.
+</p>
+
+<p style="margin-top:40px;font-size:0.85rem;font-family:var(--font-mono)">
+  <a href="/" style="color:var(--accent-dim)">← home</a>
+  &nbsp;&middot;&nbsp;
+  <a href="/story" style="color:var(--accent-dim)">read: the story →</a>
+</p>

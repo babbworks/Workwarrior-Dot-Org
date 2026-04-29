@@ -1,0 +1,44 @@
+---
+layout: default
+---
+
+<div class="wrapper">
+  <div class="doc-layout">
+    <nav class="doc-sidenav" aria-label="Documentation navigation">
+      <div class="doc-nav-section">
+        <span class="doc-nav-label">Basics</span>
+        <a href="/docs/getting-started" class="doc-nav-link{% if page.url contains 'getting-started' %} active{% endif %}">Getting Started</a>
+        <a href="/docs/profiles" class="doc-nav-link{% if page.url contains 'profiles' %} active{% endif %}">Profiles</a>
+      </div>
+      <div class="doc-nav-section">
+        <span class="doc-nav-label">Features</span>
+        <a href="/docs/browser-ui" class="doc-nav-link{% if page.url contains 'browser-ui' %} active{% endif %}">Browser UI</a>
+        <a href="/docs/heuristics" class="doc-nav-link{% if page.url contains 'heuristics' %} active{% endif %}">Heuristic Engine</a>
+        <a href="/docs/github-sync" class="doc-nav-link{% if page.url contains 'github-sync' %} active{% endif %}">GitHub Sync</a>
+        <a href="/docs/ai-integration" class="doc-nav-link{% if page.url contains 'ai-integration' %} active{% endif %}">AI Integration</a>
+      </div>
+      <div class="doc-nav-section">
+        <span class="doc-nav-label">Reference</span>
+        <a href="/docs/services" class="doc-nav-link{% if page.url contains 'services' %} active{% endif %}">Services</a>
+        <a href="/docs/weapons" class="doc-nav-link{% if page.url contains 'weapons' %} active{% endif %}">Weapons</a>
+        <a href="/docs/uda-system" class="doc-nav-link{% if page.url contains 'uda-system' %} active{% endif %}">UDA System</a>
+        <a href="/docs/architecture" class="doc-nav-link{% if page.url contains 'architecture' %} active{% endif %}">Architecture</a>
+      </div>
+      <div class="doc-nav-section">
+        <span class="doc-nav-label">Standard</span>
+        <a href="https://github.com/babbworks/ww-standard/blob/main/WORKWARRIOR-STANDARD.md" class="doc-nav-link" target="_blank" rel="noopener">Full Technical Standard ↗</a>
+        <a href="/install" class="doc-nav-link">Install</a>
+      </div>
+    </nav>
+    <div class="doc-content">
+      <div class="doc-header">
+        {% if page.eyebrow %}<p class="page-eyebrow">{{ page.eyebrow }}</p>{% endif %}
+        <h1>{{ page.title | escape }}</h1>
+        {% if page.description %}<p class="page-sub">{{ page.description }}</p>{% endif %}
+      </div>
+      <div class="doc-body">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+</div>
