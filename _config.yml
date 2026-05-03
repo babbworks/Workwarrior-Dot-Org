@@ -21,6 +21,8 @@ minima:
       url: "/system"
     - title: "Extensions"
       url: "/extensions"
+    - title: "Interface"
+      url: "/interface"
     - title: "Updates"
       url: "/updates"
     - title: "—"

@@ -1,0 +1,2283 @@
+---
+layout: experience
+title: Interface
+permalink: /interface
+---
+
+<style>
+  /* ================================================
+     CLI PAGE — LOCAL STYLES
+     Extends workwarrior.scss without overriding it.
+     ================================================ */
+
+  /* ── Page chrome ── */
+  .cli-page {
+    padding-top: var(--header-h);
+    overflow-x: hidden;
+  }
+
+  /* ── Hero ── */
+  .cli-hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cli-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(43,201,204,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cli-hero .wrapper { max-width: 980px; position: relative; z-index: 1; }
+
+  .cli-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .cli-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .cli-hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.08;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .cli-hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .cli-hero-lead {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 640px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  .cli-hero-sub {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    max-width: 620px;
+    line-height: 1.7;
+    border-left: 2px solid var(--border);
+    padding-left: 16px;
+    margin-top: 20px;
+  }
+
+  /* ── Page nav (scroll-spy) ── */
+  .cli-page-nav {
+    background: var(--bg-warm);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: var(--header-h);
+    z-index: 80;
+  }
+
+  .cli-page-nav .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cli-page-nav .wrapper::-webkit-scrollbar { display: none; }
+
+  .pnav-item {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 13px 16px;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pnav-item:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .pnav-item.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .pnav-sep {
+    color: var(--border);
+    font-size: 0.75rem;
+    padding: 0 2px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .pnav-indent {
+    padding-left: 8px;
+    color: var(--text-light);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+  }
+
+  .pnav-indent::before {
+    content: '↳';
+    margin-right: 4px;
+    font-size: 0.65rem;
+    opacity: 0.6;
+  }
+
+  /* ── Section scaffold ── */
+  .cli-section {
+    padding: 72px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cli-section-alt {
+    background: var(--bg-warm);
+  }
+
+  .section-anchor-label {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .section-anchor-label .anchor-path {
+    color: var(--text-light);
+    opacity: 0.7;
+  }
+
+  .section-anchor-label .anchor-path span {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  /* ── Times top-level section ── */
+  .times-header {
+    margin-bottom: 52px;
+  }
+
+  .times-header h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-bright);
+    margin-bottom: 14px;
+  }
+
+  .times-header p {
+    font-size: 0.975rem;
+    color: var(--text-muted);
+    max-width: 640px;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* ── Child section headers ── */
+  .child-section {
+    margin-top: 0;
+  }
+
+  .child-section + .child-section {
+    margin-top: 64px;
+    padding-top: 56px;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .child-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .child-header h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: var(--text-bright);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .child-header .child-slug {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-light);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 3px 9px;
+  }
+
+  /* ── Stream System content ── */
+  .stream-lede {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 680px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .stream-blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 0 0 40px;
+    padding: 14px 22px;
+    background: var(--accent-bg);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .stream-blockquote p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.975rem;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* Lineage grid */
+  .lineage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .lineage-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    border-left: 2px solid var(--border);
+    transition: border-left-color 0.15s;
+  }
+
+  .lineage-card:hover { border-left-color: var(--accent); }
+
+  .lineage-card .layer-name {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .lineage-card .layer-origin {
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .lineage-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Synthesis table — layer → role */
+  .synthesis-table-wrap {
+    margin: 0 0 48px;
+    overflow-x: auto;
+  }
+
+  /* Stream format block */
+  .stream-format-block {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text);
+    overflow-x: auto;
+  }
+
+  .stream-format-block .sf-comment { color: var(--text-light); font-style: italic; }
+  .stream-format-block .sf-op { color: var(--accent); font-weight: 600; }
+  .stream-format-block .sf-val { color: var(--green); }
+  .stream-format-block .sf-label { color: var(--text-bright); }
+  .stream-format-block .sf-dim { color: var(--text-light); }
+
+  /* Two-column text + code layout */
+  .stream-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 760px) {
+    .stream-split { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  .stream-split-text h4 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+
+  .stream-split-text p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* Layer cards — the four derived layers */
+  .layers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .layer-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    transition: border-color 0.15s;
+  }
+
+  .layer-card:hover { border-color: var(--accent-dim); }
+
+  .layer-card .lc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .layer-card .lc-name {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .layer-card .lc-tag {
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    background: var(--bg-surface2);
+    padding: 2px 7px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+
+  .layer-card p {
+    font-size: 0.855rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .layer-card .lc-signal {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 10px;
+    display: block;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-light);
+  }
+
+  /* Cooper highlight block */
+  .cooper-block {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 40px;
+  }
+
+  .cooper-block h4 {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+    margin-top: 0;
+  }
+
+  .cooper-block .cooper-def {
+    font-size: 1rem;
+    color: var(--text-bright);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .cooper-uses {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .cooper-use {
+    background: var(--bg-code);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+
+  .cooper-use .cu-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--green);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .cooper-use p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Summary definitions */
+  .summary-defs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 32px;
+  }
+
+  .summary-def {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border-light);
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .summary-def:last-child { border-bottom: none; }
+
+  .summary-def .sd-label {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    padding-top: 2px;
+  }
+
+  .summary-def p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 580px) {
+    .summary-def { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  /* CLI command taxonomy */
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .cmd-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .cmd-card .cc-head {
+    background: var(--bg-surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 9px 14px;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .cmd-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cmd-card li {
+    padding: 7px 14px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .cmd-card li:last-child { border-bottom: none; }
+
+  .cmd-card li .ci-cmd { color: var(--accent); }
+  .cmd-card li .ci-note { color: var(--text-light); font-size: 0.7rem; }
+
+  /* Industrial table */
+  .industrial-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+  }
+
+  @media (max-width: 680px) {
+    .industrial-grid { grid-template-columns: 1fr; }
+  }
+
+  .industrial-item {
+    border-left: 2px solid var(--border);
+    padding-left: 18px;
+    transition: border-left-color 0.15s;
+  }
+
+  .industrial-item:hover { border-left-color: var(--green); }
+
+  .industrial-item h5 {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--green);
+    margin-bottom: 6px;
+    margin-top: 0;
+  }
+
+  .industrial-item p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* ── Visualize / Midwests gallery ── */
+  .gallery-lede {
+    font-size: 0.975rem;
+    color: var(--text-muted);
+    max-width: 640px;
+    line-height: 1.75;
+    margin-bottom: 36px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+
+  .gallery-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: border-color 0.15s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-item:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-1px);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    background: var(--bg-code);
+  }
+
+  .gallery-caption {
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-light);
+    background: var(--bg-surface2);
+    flex: 1;
+  }
+
+  .gallery-caption strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+
+  /* Gallery lightbox */
+  .gallery-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 16, 26, 0.95);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+  }
+
+  .gallery-lightbox.open {
+    display: flex;
+  }
+
+  .lightbox-inner {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .lightbox-inner img {
+    width: 100%;
+    max-height: 80vh;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  .lightbox-caption {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .lightbox-close:hover { color: var(--accent); border-color: var(--accent-dim); }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .lightbox-nav:hover { color: var(--accent); border-color: var(--accent-dim); }
+  .lightbox-prev { left: -48px; }
+  .lightbox-next { right: -48px; }
+
+  @media (max-width: 720px) {
+    .lightbox-prev, .lightbox-next { display: none; }
+  }
+
+  /* Gallery note for Jekyll integration */
+  .gallery-jekyll-note {
+    margin-top: 28px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  .gallery-jekyll-note code {
+    font-size: 0.8rem;
+  }
+
+  /* ── Misc ── */
+  .divider-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 44px 0 32px;
+  }
+
+  .divider-label span {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    white-space: nowrap;
+  }
+
+  .divider-label::before,
+  .divider-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-light);
+  }
+
+  .text-accent { color: var(--accent); }
+  .text-green  { color: var(--green); }
+  .text-muted  { color: var(--text-muted); }
+
+  /* ── Stream in Detail — sub-nav ── */
+  .sid-subnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 44px;
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .sid-nav-link {
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: color 0.13s, background 0.13s, border-color 0.13s;
+    white-space: nowrap;
+  }
+
+  .sid-nav-link:hover {
+    color: var(--accent);
+    background: var(--accent-bg);
+    border-color: rgba(43,201,204,0.2);
+    text-decoration: none;
+  }
+
+  .sid-nav-link.active {
+    color: var(--accent);
+    background: var(--accent-bg);
+    border-color: rgba(43,201,204,0.3);
+  }
+
+  /* ── Stream in Detail — parts ── */
+  .sid-part {
+    margin-bottom: 52px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .sid-part:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .sid-part-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .sid-part-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .sid-part-header h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .sid-subsection-label {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 28px 0 10px;
+  }
+
+  .sid-part p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    max-width: 720px;
+  }
+
+  /* ── Items (named prose blocks) ── */
+  .sid-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sid-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .sid-item:last-child { border-bottom: none; }
+
+  .sid-item-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 6px;
+  }
+
+  .sid-item p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+    max-width: none;
+  }
+
+  /* ── Synthesis block ── */
+  .sid-synthesis {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-top: 24px;
+  }
+
+  .sid-synthesis-label {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  .sid-synthesis p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    max-width: none;
+  }
+
+  .sid-synthesis-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sid-syn-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+
+  .syn-layer  { color: var(--accent); font-weight: 600; min-width: 90px; }
+  .syn-arrow  { color: var(--text-light); }
+  .syn-role   { color: var(--text-muted); }
+
+  /* ── List ── */
+  .sid-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+  }
+
+  .sid-list li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-light);
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .sid-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  .sid-list li:last-child { border-bottom: none; }
+
+  /* ── Format blocks grid ── */
+  .sid-formats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .sid-format-block .stream-format-block {
+    font-size: 0.78rem;
+  }
+</style>
+
+<div class="cli-page">
+
+  <!-- ====================================================
+       HERO
+       ==================================================== -->
+  <section class="cli-hero" id="cli">
+    <div class="wrapper">
+      <div class="cli-eyebrow">CLI Enhancements</div>
+      <h1>Extending the command line<br><span style="white-space:nowrap">for <em>every operator</em>.</span></h1>
+      <p class="cli-hero-lead">
+        Workwarrior treats the CLI as a first-class surface — not a fallback. This section
+        documents active work to make the command line more expressive, more observable, and
+        more structurally sound: for the developer at a laptop, the operator on a factory floor,
+        and the agent running on hardware that may never see a GUI.
+      </p>
+      <p class="cli-hero-sub">
+        The goal is a CLI that carries genuine operational intelligence — one that can track the
+        shape of work over time, surface behavioral signals, and coordinate across human and
+        automated actors — without sacrificing the speed and composability that make terminal
+        tools worth using in the first place.
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       PAGE NAV
+       ==================================================== -->
+  <nav class="cli-page-nav" aria-label="CLI page sections">
+    <div class="wrapper">
+      <a href="#times" class="pnav-item" data-anchor="times">Times</a>
+      <span class="pnav-sep">›</span>
+      <a href="#stream-system" class="pnav-item pnav-indent" data-anchor="stream-system">Stream System</a>
+      <span class="pnav-sep">›</span>
+      <a href="#stream-in-detail" class="pnav-item pnav-indent" data-anchor="stream-in-detail">Stream in Detail</a>
+      <span class="pnav-sep">›</span>
+      <a href="#visualize" class="pnav-item pnav-indent" data-anchor="visualize">Visualize</a>
+      <span class="pnav-sep">›</span>
+      <a href="#midwests" class="pnav-item pnav-indent" data-anchor="midwests">Midwests</a>
+    </div>
+  </nav>
+
+  <!-- ====================================================
+       TIMES — top-level section
+       ==================================================== -->
+  <section class="cli-section" id="times">
+    <div class="wrapper">
+
+      <div class="section-anchor-label">
+        <span class="anchor-path">cli / <span>times</span></span>
+      </div>
+
+      <div class="times-header">
+        <h2>Times</h2>
+        <p>
+          Workwarrior's approach to time is structural, not cosmetic. Rather than logging
+          durations after the fact, the system continuously records the behavioral state
+          of work as it happens — building a replayable, geometrically interpretable record
+          that can serve everything from personal reflection to industrial monitoring.
+        </p>
+      </div>
+
+      <!-- ================================================
+           CHILD: STREAM SYSTEM
+           ================================================ -->
+      <div class="child-section" id="stream-system">
+        <div class="child-header">
+          <h3>Stream System</h3>
+          <span class="child-slug">#stream-system</span>
+        </div>
+
+        <p class="stream-lede">
+          The Workwarrior Stream System (WWSS) is a deterministic, append-only event substrate
+          that unifies task identity, behavioral signals, time intervals, and geometric
+          visualization into a single replayable timeline. It is not a feature added to
+          Workwarrior — it is the kernel from which all other representations are derived.
+        </p>
+
+        <div class="stream-blockquote">
+          <p>A single append-only stream is the source of truth. All views — tasks, intervals,
+          signals, and geometry — are derived through deterministic replay.</p>
+        </div>
+
+        <!-- Lineage -->
+        <div class="divider-label"><span>Historical Lineage</span></div>
+
+        <p style="font-size:0.9rem;color:var(--text-muted);max-width:660px;line-height:1.75;margin-bottom:24px;">
+          Each layer in the system is named for and modeled on a real historical precedent.
+          The technical achievement is collapsing these historical models into one unified event format.
+        </p>
+
+        <div class="lineage-grid">
+          <div class="lineage-card">
+            <span class="layer-name">Dey</span>
+            <span class="layer-origin">Alexander Dey — late 19th c.</span>
+            <p>Dial-based time recorders where a continuous trace replaced discrete punches. Time became a field, not a series of entries. Workwarrior's Dey layer carries a sampled, continuous behavioral signal: intensity, stability, fragmentation.</p>
+          </div>
+          <div class="lineage-card">
+            <span class="layer-name">Frick</span>
+            <span class="layer-origin">Frederick W. Frick — mechanical recorders</span>
+            <p>Instantaneous marks — punches and state changes rather than duration. Frick events are structural boundaries: <code>START</code>, <code>STOP</code>, <code>PAUSE</code>, <code>RESUME</code>, <code>SWITCH</code>.</p>
+          </div>
+          <div class="lineage-card">
+            <span class="layer-name">Bundy</span>
+            <span class="layer-origin">Willard Le Grand Bundy — 1880s</span>
+            <p>Start/stop recording and accumulation of worked time into bounded intervals. Bundy intervals are not stored — they are derived from Frick boundaries during replay. The interval is always a computation, never a fact on disk.</p>
+          </div>
+          <div class="lineage-card">
+            <span class="layer-name">Hollerith</span>
+            <span class="layer-origin">Herman Hollerith — 1890 Census</span>
+            <p>Symbolic encoding of real-world states into compact, machine-readable records. The stream's <code>&lt;t&gt; &lt;op&gt; &lt;a&gt; &lt;b&gt; &lt;c&gt;</code> line format is directly analogous to a punched card row: fixed tokens, numeric payload.</p>
+          </div>
+          <div class="lineage-card">
+            <span class="layer-name">Pacioli / Git</span>
+            <span class="layer-origin">1494 → version control</span>
+            <p>The present state of a system is a derivation of recorded history, not a stored snapshot. The ledger is never corrected — only appended to. Workwarrior extends this from files to behavioral time-state.</p>
+          </div>
+        </div>
+
+        <!-- Stream Format -->
+        <div class="divider-label"><span>Stream Format</span></div>
+
+        <p style="font-size:0.9rem;color:var(--text-muted);max-width:660px;line-height:1.75;margin-bottom:24px;">
+          The only required persistent artifact is a single append-only log file:
+          <code>~/.ww/stream.log</code>. Every event is five tokens.
+        </p>
+
+        <div class="stream-split">
+          <div class="stream-split-text">
+            <h4>Canonical line structure</h4>
+            <p>Five fields per line: timestamp, opcode, and three numeric payload values. No JSON. No headers. No schema versioning. Human-readable debugging without tools; deterministic replay by any parser that reads lines in order.</p>
+          </div>
+          <div class="stream-format-block">
+<span class="sf-label">&lt;t&gt;  &lt;op&gt;  &lt;a&gt;  &lt;b&gt;  &lt;c&gt;</span>
+
+<span class="sf-comment"># Opcodes:</span>
+<span class="sf-op">D</span>  <span class="sf-dim">Dey     </span><span class="sf-comment">continuous state sample</span>
+<span class="sf-op">F</span>  <span class="sf-dim">Frick   </span><span class="sf-comment">state transition</span>
+<span class="sf-op">T</span>  <span class="sf-dim">Tag     </span><span class="sf-comment">semantic annotation</span>
+<span class="sf-op">B</span>  <span class="sf-dim">Binding </span><span class="sf-comment">link task ID → segment</span>
+<span class="sf-op">S</span>  <span class="sf-dim">System  </span><span class="sf-comment">regen snapshot, events</span>
+
+<span class="sf-comment"># Worked example:</span>
+<span class="sf-val">480</span> <span class="sf-op">D</span> <span class="sf-val">0.6</span> <span class="sf-val">0.7</span> <span class="sf-val">0.2</span>  <span class="sf-comment"># i=0.6 s=0.7 f=0.2</span>
+<span class="sf-val">482</span> <span class="sf-op">F</span> <span class="sf-val">1</span> <span class="sf-val">0</span> <span class="sf-val">0</span>      <span class="sf-comment"># START</span>
+<span class="sf-val">482</span> <span class="sf-op">B</span> <span class="sf-val">2</span> <span class="sf-val">0</span> <span class="sf-val">0</span>      <span class="sf-comment"># bind task:2</span>
+<span class="sf-val">540</span> <span class="sf-op">F</span> <span class="sf-val">2</span> <span class="sf-val">0</span> <span class="sf-val">0</span>      <span class="sf-comment"># PAUSE</span>
+<span class="sf-val">545</span> <span class="sf-op">F</span> <span class="sf-val">4</span> <span class="sf-val">0</span> <span class="sf-val">0</span>      <span class="sf-comment"># SWITCH</span>
+          </div>
+        </div>
+
+        <!-- Four Derived Layers -->
+        <div class="divider-label"><span>The Four Derived Layers</span></div>
+
+        <p style="font-size:0.9rem;color:var(--text-muted);max-width:660px;line-height:1.75;margin-bottom:24px;">
+          All derived structures are computed during replay. Nothing below is stored authoritatively.
+        </p>
+
+        <div class="layers-grid">
+          <div class="layer-card">
+            <div class="lc-head">
+              <span class="lc-name">Dey</span>
+              <span class="lc-tag">continuous</span>
+            </div>
+            <p>A sampled, three-dimensional behavioral signal: intensity (activity density), stability (execution coherence), fragmentation (context-switching entropy). The system's real-time cognitive load meter — neither a task count nor a simple timer.</p>
+            <span class="lc-signal">fields: i · s · f</span>
+          </div>
+          <div class="layer-card">
+            <div class="lc-head">
+              <span class="lc-name">Frick</span>
+              <span class="lc-tag">discrete</span>
+            </div>
+            <p>The control-flow graph of behavior. Structural boundaries in the timeline: START, STOP, PAUSE, RESUME, SWITCH. Context switching is an inferred state transition, not a command pair.</p>
+            <span class="lc-signal">types: START · STOP · PAUSE · RESUME · SWITCH</span>
+          </div>
+          <div class="layer-card">
+            <div class="lc-head">
+              <span class="lc-name">Bundy</span>
+              <span class="lc-tag">derived</span>
+            </div>
+            <p>Intervals derived entirely from Frick boundaries. Never stored. The same stream can produce different interval segmentations if the Frick reducer rules change — without touching any stored data.</p>
+            <span class="lc-signal">fields: start · end · task_id · confidence</span>
+          </div>
+          <div class="layer-card">
+            <div class="lc-head">
+              <span class="lc-name">Regeneration</span>
+              <span class="lc-tag">adaptive</span>
+            </div>
+            <p>Tracks how repeated patterns affect longer-horizon state: fatigue, elasticity, crystallization per task type, fracture memory. Stored via S events as optional snapshots.</p>
+            <span class="lc-signal">fields: fatigue · elasticity · crystallization</span>
+          </div>
+        </div>
+
+        <!-- Cooper -->
+        <div class="divider-label"><span>Cooper — Geometric Projection</span></div>
+
+        <div class="cooper-block">
+          <h4>Cooper layer</h4>
+          <p class="cooper-def">
+            Cooper transforms the Dey time series into a geometric field: time becomes angle,
+            intensity becomes radius, fragmentation becomes geometric deformation. A focused day
+            produces a smooth ring. A fragmented day produces jagged, asymmetric geometry.
+            A collapsed day inverts toward the center.
+          </p>
+          <div class="stream-format-block" style="margin-bottom:16px;">
+<span class="sf-comment"># Polar projection:</span>
+<span class="sf-label">angle  </span><span class="sf-dim">← time of day   </span><span class="sf-comment">(24h → 2π)</span>
+<span class="sf-label">radius </span><span class="sf-dim">← Dey intensity </span><span class="sf-comment">(distance from center)</span>
+<span class="sf-label">smooth </span><span class="sf-dim">← Dey stability </span><span class="sf-comment">(edge coherence)</span>
+<span class="sf-label">deform </span><span class="sf-dim">← Dey fragment  </span><span class="sf-comment">(geometric distortion)</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:16px;">
+            Cooper is not primarily a display technique. As a computational object it is a mapping
+            from time-series state vectors to a continuous geometric manifold — enabling:
+          </p>
+          <div class="cooper-uses">
+            <div class="cooper-use">
+              <span class="cu-title">Anomaly detection</span>
+              <p>Normal behavior = stable ring. Anomalies appear as radial bulges, jagged edges, or radial collapse. No threshold tuning per metric.</p>
+            </div>
+            <div class="cooper-use">
+              <span class="cu-title">Agent scheduling</span>
+              <p>High-radius zones = high-load periods where injecting tasks is costly. Stable arcs = optimal execution windows.</p>
+            </div>
+            <div class="cooper-use">
+              <span class="cu-title">Multi-agent coordination</span>
+              <p>Overlapping Cooper fields reveal contention zones; divergence indicates specialization. Coordination as vector field alignment.</p>
+            </div>
+            <div class="cooper-use">
+              <span class="cu-title">RL reward shaping</span>
+              <p>Cooper-derived metrics define reward signals: stability up → reward; fragmentation up → penalty; sustained intensity → nonlinear reward curve.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLI as compiler front-end -->
+        <div class="divider-label"><span>CLI as Compiler Front-End</span></div>
+
+        <p style="font-size:0.9rem;color:var(--text-muted);max-width:660px;line-height:1.75;margin-bottom:24px;">
+          Every CLI command is a macro-expansion into stream events. The CLI is not an interface
+          to the system — it is a compiler front-end for a time-structured event machine.
+        </p>
+
+        <div class="cmd-grid">
+          <div class="cmd-card">
+            <div class="cc-head">Task lifecycle</div>
+            <ul>
+              <li><span class="ci-cmd">ww task 2 start</span><span class="ci-note">→ F START + B task:2</span></li>
+              <li><span class="ci-cmd">ww task 3 start</span><span class="ci-note">→ F SWITCH + B task:3</span></li>
+            </ul>
+          </div>
+          <div class="cmd-card">
+            <div class="cc-head">Stream primitives</div>
+            <ul>
+              <li><span class="ci-cmd">ww emit D 0.5 0.7 0.2</span></li>
+              <li><span class="ci-cmd">ww emit F START</span></li>
+              <li><span class="ci-cmd">ww emit T "note"</span></li>
+            </ul>
+          </div>
+          <div class="cmd-card">
+            <div class="cc-head">Observation (read-only)</div>
+            <ul>
+              <li><span class="ci-cmd">ww view dey</span></li>
+              <li><span class="ci-cmd">ww view frick</span></li>
+              <li><span class="ci-cmd">ww view bundy</span></li>
+              <li><span class="ci-cmd">ww view cooper</span></li>
+            </ul>
+          </div>
+          <div class="cmd-card">
+            <div class="cc-head">Replay</div>
+            <ul>
+              <li><span class="ci-cmd">ww replay --full</span></li>
+              <li><span class="ci-cmd">ww replay --at 10:30</span></li>
+              <li><span class="ci-cmd">ww replay --task 2</span></li>
+            </ul>
+          </div>
+          <div class="cmd-card">
+            <div class="cc-head">Agent interface</div>
+            <ul>
+              <li><span class="ci-cmd">ww agent run optimizer</span></li>
+              <li><span class="ci-cmd">ww agent handoff task:2</span><span class="ci-note">→ F HANDOFF</span></li>
+            </ul>
+          </div>
+          <div class="cmd-card">
+            <div class="cc-head">System</div>
+            <ul>
+              <li><span class="ci-cmd">ww sync taskwarrior</span></li>
+              <li><span class="ci-cmd">ww daemon start</span></li>
+              <li><span class="ci-cmd">ww smm start</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Industrial Application -->
+        <div class="divider-label"><span>Industrial Application</span></div>
+
+        <p style="font-size:0.9rem;color:var(--text-muted);max-width:660px;line-height:1.75;margin-bottom:24px;">
+          The system maps directly to factory and off-earth environments. What industrial systems
+          currently lack is not data — it is a unified interpretive layer connecting machine state,
+          human intent, and operational rhythm.
+        </p>
+
+        <div class="industrial-grid">
+          <div class="industrial-item">
+            <h5>Dey → Sensor telemetry</h5>
+            <p>Continuous load, vibration, and throughput signals mapped directly onto the intensity / stability / fragmentation triple.</p>
+          </div>
+          <div class="industrial-item">
+            <h5>Frick → Machine state transitions</h5>
+            <p>Start / stop / fault events expressed as the same opcode set used for human task lifecycle.</p>
+          </div>
+          <div class="industrial-item">
+            <h5>Bundy → Production runs / shifts</h5>
+            <p>Clean segmentation of operational cycles derived from state boundaries — not stored, always reconstructable.</p>
+          </div>
+          <div class="industrial-item">
+            <h5>Cooper → Plant-wide shape</h5>
+            <p>Entire facility state as a single geometric field. Rhythm, bottlenecks, load balance, and change traceability from one operational shape.</p>
+          </div>
+          <div class="industrial-item">
+            <h5>Agents as stream citizens</h5>
+            <p>No special agent API. No privileged channel. Agents read via replay, write via the same event format as humans. Handoffs are stream events.</p>
+          </div>
+          <div class="industrial-item">
+            <h5>Eliminates sessions</h5>
+            <p>State is not held in memory — it is reconstructed from the stream. Enter work by selecting a time window, not opening a session.</p>
+          </div>
+        </div>
+
+        <!-- Summary definitions -->
+        <div class="divider-label"><span>One-Line Definitions</span></div>
+
+        <div class="summary-defs">
+          <div class="summary-def">
+            <span class="sd-label">Stream format</span>
+            <p>A time-indexed instruction tape of five-token events where opcodes encode continuous signals (D), state transitions (F), semantic labels (T), identity bindings (B), and system events (S).</p>
+          </div>
+          <div class="summary-def">
+            <span class="sd-label">Replay engine</span>
+            <p>A pure, deterministic function over an ordered event stream that produces full system state — intervals, signals, task mappings, geometric projections, and adaptive state — from a single source of truth.</p>
+          </div>
+          <div class="summary-def">
+            <span class="sd-label">Cooper</span>
+            <p>A state-space embedding of work behavior in polar coordinates where time becomes angle, intensity becomes radius, and fragmentation becomes geometric deformation — enabling anomaly detection, scheduling optimization, and multi-agent coordination through field geometry.</p>
+          </div>
+          <div class="summary-def">
+            <span class="sd-label">WWSS</span>
+            <p>A deterministic, append-only event kernel that ingests human, system, and agent actions and exposes all operational state as replayable projections over a unified temporal stream — suitable for personal productivity, agentic systems, and industrial observability.</p>
+          </div>
+        </div>
+
+      </div><!-- /child: stream-system -->
+
+      <!-- ================================================
+           CHILD: STREAM IN DETAIL
+           ================================================ -->
+      <div class="child-section" id="stream-in-detail">
+        <div class="child-header">
+          <h3>Stream in Detail</h3>
+          <span class="child-slug">#stream-in-detail</span>
+        </div>
+
+        <p style="font-size:0.975rem;color:var(--text-muted);max-width:660px;line-height:1.75;margin-bottom:28px;">
+          Complete technical treatment of the Workwarrior Stream System — architecture, lineage,
+          formats, visualization, agentic and industrial applications.
+        </p>
+
+        <!-- Sub-nav -->
+        <nav class="sid-subnav" aria-label="Stream in Detail sections">
+          <a href="#sid-lineage"        class="sid-nav-link" data-sid="sid-lineage">I — Lineage</a>
+          <a href="#sid-format"         class="sid-nav-link" data-sid="sid-format">II — Format</a>
+          <a href="#sid-layers"         class="sid-nav-link" data-sid="sid-layers">III — Layers</a>
+          <a href="#sid-cooper"         class="sid-nav-link" data-sid="sid-cooper">IV — Cooper</a>
+          <a href="#sid-replay"         class="sid-nav-link" data-sid="sid-replay">V — Replay</a>
+          <a href="#sid-architecture"   class="sid-nav-link" data-sid="sid-architecture">VI — Architecture</a>
+          <a href="#sid-smm"            class="sid-nav-link" data-sid="sid-smm">VII — SMM</a>
+          <a href="#sid-cli"            class="sid-nav-link" data-sid="sid-cli">VIII — CLI</a>
+          <a href="#sid-formats"        class="sid-nav-link" data-sid="sid-formats">IX — Data Formats</a>
+          <a href="#sid-ascii"          class="sid-nav-link" data-sid="sid-ascii">X — ASCII Layer</a>
+          <a href="#sid-agentic"        class="sid-nav-link" data-sid="sid-agentic">XI — Agentic</a>
+          <a href="#sid-industrial"     class="sid-nav-link" data-sid="sid-industrial">XII — Industrial</a>
+          <a href="#sid-distinctive"    class="sid-nav-link" data-sid="sid-distinctive">XIII — Distinctive</a>
+          <a href="#sid-implementation" class="sid-nav-link" data-sid="sid-implementation">XIV — Implementation</a>
+        </nav>
+
+        <!-- ── I — Historical Lineage ── -->
+        <div class="sid-part" id="sid-lineage">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part I</span>
+            <h4>Historical Lineage: Where the Layers Come From</h4>
+          </div>
+          <p>Each layer in the system is named for and modeled on a real historical precedent. None are invented in isolation.</p>
+
+          <div class="sid-items">
+            <div class="sid-item">
+              <div class="sid-item-label">Dey Layer — Continuous Analog Recording</div>
+              <p>Alexander Dey's dial-based time recorders (late 19th century) introduced rotating surfaces where a continuous trace replaced discrete punches. Time became a <em>field</em>, not a series of entries. Workwarrior's Dey layer inherits this: a sampled, continuous behavioral signal carrying three values at each point in time.</p>
+            </div>
+            <div class="sid-item">
+              <div class="sid-item-label">Frick Layer — Discrete Event Impulses</div>
+              <p>Frederick W. Frick's mechanical recorders emphasized instantaneous marks — punches and state changes rather than duration. The system advances via discrete events, not continuous measurement. Frick events are the structural boundaries: <code>START</code>, <code>STOP</code>, <code>PAUSE</code>, <code>RESUME</code>, <code>SWITCH</code>.</p>
+            </div>
+            <div class="sid-item">
+              <div class="sid-item-label">Bundy Layer — Interval Accumulation</div>
+              <p>Willard Le Grand Bundy's late-19th-century time clocks established start/stop recording and accumulation of worked time into bounded intervals. Bundy intervals are not stored in the stream — they are <em>derived</em> from Frick boundaries during replay. The interval is always a computation, never a fact on disk.</p>
+            </div>
+            <div class="sid-item">
+              <div class="sid-item-label">Hollerith Encoding — Compact Machine-Readable Data</div>
+              <p>Herman Hollerith's punched-card systems (1890 US Census) introduced symbolic encoding of real-world states into compact, machine-readable records suitable for aggregation. The stream's <code>&lt;t&gt; &lt;op&gt; &lt;a&gt; &lt;b&gt; &lt;c&gt;</code> line format is directly analogous to a punched card row: fixed tokens, numeric payload, machine-processable.</p>
+            </div>
+            <div class="sid-item">
+              <div class="sid-item-label">Pacioli / Git — Append-Only Reconstruction</div>
+              <p>From Luca Pacioli's double-entry accounting (1494 onward): the present state of a system is a derivation of recorded history, not a stored snapshot. The ledger is never corrected — only appended to. Modern version control (Git) formalized the same principle for software. Workwarrior extends this from files to behavioral time-state.</p>
+            </div>
+          </div>
+
+          <div class="sid-synthesis">
+            <div class="sid-synthesis-label">The Synthesis</div>
+            <p>None of these components are novel individually. The technical achievement is collapsing them all into a <strong>single unified event stream</strong> where:</p>
+            <div class="sid-synthesis-grid">
+              <div class="sid-syn-item"><span class="syn-layer">Bundy</span><span class="syn-arrow">→</span><span class="syn-role">intervals (derived)</span></div>
+              <div class="sid-syn-item"><span class="syn-layer">Frick</span><span class="syn-arrow">→</span><span class="syn-role">events (explicit)</span></div>
+              <div class="sid-syn-item"><span class="syn-layer">Dey</span><span class="syn-arrow">→</span><span class="syn-role">continuous signal (sampled)</span></div>
+              <div class="sid-syn-item"><span class="syn-layer">Hollerith</span><span class="syn-arrow">→</span><span class="syn-role">encoding (compact schema)</span></div>
+              <div class="sid-syn-item"><span class="syn-layer">Pacioli/Git</span><span class="syn-arrow">→</span><span class="syn-role">replay (deterministic reconstruction)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── II — Stream Format ── -->
+        <div class="sid-part" id="sid-format">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part II</span>
+            <h4>The Stream Format</h4>
+          </div>
+          <p>The only required persistent artifact is a single append-only log file: <code>~/.ww/stream.log</code></p>
+
+          <div class="sid-subsection-label">Canonical Line Structure</div>
+          <div class="stream-format-block">
+<span class="sf-label">&lt;t&gt; &lt;op&gt; &lt;a&gt; &lt;b&gt; &lt;c&gt;</span>
+          </div>
+
+          <table>
+            <thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>t</code></td><td>int</td><td>Timestamp (epoch minutes or epoch seconds)</td></tr>
+              <tr><td><code>op</code></td><td>char</td><td>Opcode: D, F, T, B, S</td></tr>
+              <tr><td><code>a</code></td><td>float/int</td><td>Primary payload</td></tr>
+              <tr><td><code>b</code></td><td>float/int</td><td>Secondary payload</td></tr>
+              <tr><td><code>c</code></td><td>float/int</td><td>Optional third payload (0 if unused)</td></tr>
+            </tbody>
+          </table>
+
+          <div class="sid-subsection-label">Opcodes</div>
+          <table>
+            <thead><tr><th>Code</th><th>Name</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>D</code></td><td>Dey</td><td>Continuous state sample: intensity, stability, fragmentation</td></tr>
+              <tr><td><code>F</code></td><td>Frick</td><td>State transition: START, STOP, PAUSE, RESUME, SWITCH</td></tr>
+              <tr><td><code>T</code></td><td>Tag</td><td>Semantic annotation or label</td></tr>
+              <tr><td><code>B</code></td><td>Binding</td><td>Link a Taskwarrior ID to the current stream segment</td></tr>
+              <tr><td><code>S</code></td><td>System</td><td>Regeneration snapshot, system events</td></tr>
+            </tbody>
+          </table>
+
+          <div class="sid-subsection-label">Worked Example</div>
+          <div class="stream-format-block">
+<span class="sf-val">480</span> <span class="sf-op">D</span> <span class="sf-val">0.6</span> <span class="sf-val">0.7</span> <span class="sf-val">0.2</span>   <span class="sf-comment"># intensity=0.6, stability=0.7, fragmentation=0.2</span>
+<span class="sf-val">482</span> <span class="sf-op">F</span> <span class="sf-val">1</span> <span class="sf-val">0</span> <span class="sf-val">0</span>         <span class="sf-comment"># START</span>
+<span class="sf-val">482</span> <span class="sf-op">B</span> <span class="sf-val">2</span> <span class="sf-val">0</span> <span class="sf-val">0</span>         <span class="sf-comment"># bind task:2</span>
+<span class="sf-val">540</span> <span class="sf-op">F</span> <span class="sf-val">2</span> <span class="sf-val">0</span> <span class="sf-val">0</span>         <span class="sf-comment"># PAUSE</span>
+<span class="sf-val">545</span> <span class="sf-op">F</span> <span class="sf-val">4</span> <span class="sf-val">0</span> <span class="sf-val">0</span>         <span class="sf-comment"># SWITCH</span>
+<span class="sf-val">550</span> <span class="sf-op">D</span> <span class="sf-val">0.4</span> <span class="sf-val">0.5</span> <span class="sf-val">0.3</span>
+          </div>
+
+          <p style="font-size:0.875rem;color:var(--text-muted);">The format is deliberately minimal — five tokens per line, no JSON, no headers, no schema versioning. Append-only writes with minimal I/O overhead; human-readable debugging without tools; exact analogy to punched-card encoding; deterministic replay by any parser that reads lines in order.</p>
+        </div>
+
+        <!-- ── III — Four Derived Layers ── -->
+        <div class="sid-part" id="sid-layers">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part III</span>
+            <h4>The Four Derived Layers</h4>
+          </div>
+          <p>All derived structures are computed during replay. Nothing below is stored authoritatively.</p>
+
+          <div class="sid-items">
+            <div class="sid-item">
+              <div class="sid-item-label">Dey — Continuous Signal Dynamics</div>
+              <div class="stream-format-block" style="margin:10px 0 12px;">
+<span class="sf-label">DeySample</span> <span class="sf-dim">{</span>
+    <span class="sf-op">t</span><span class="sf-dim">: int</span>
+    <span class="sf-op">i</span><span class="sf-dim">: float</span>   <span class="sf-comment"># intensity — activity density / load</span>
+    <span class="sf-op">s</span><span class="sf-dim">: float</span>   <span class="sf-comment"># stability — coherence of execution state</span>
+    <span class="sf-op">f</span><span class="sf-dim">: float</span>   <span class="sf-comment"># fragmentation — context switching frequency</span>
+<span class="sf-dim">}</span>
+              </div>
+              <p>The full Dey layer is computed from a sliding window: <strong>intensity</strong> via exponential moving average over activity rate; <strong>stability</strong> via variance of task-switching patterns; <strong>fragmentation</strong> via entropy of project distribution over a time window. Dey is the system's behavioral CPU meter — a real-time readout of cognitive or operational load that is neither a task count nor a simple timer.</p>
+            </div>
+
+            <div class="sid-item">
+              <div class="sid-item-label">Frick — Discrete State Transitions</div>
+              <div class="stream-format-block" style="margin:10px 0 12px;">
+<span class="sf-label">FrickEvent</span> <span class="sf-dim">{</span>
+    <span class="sf-op">t</span><span class="sf-dim">: int</span>
+    <span class="sf-op">type</span><span class="sf-dim">: enum {</span> <span class="sf-val">START</span><span class="sf-dim">,</span> <span class="sf-val">STOP</span><span class="sf-dim">,</span> <span class="sf-val">PAUSE</span><span class="sf-dim">,</span> <span class="sf-val">RESUME</span><span class="sf-dim">,</span> <span class="sf-val">SWITCH</span> <span class="sf-dim">}</span>
+<span class="sf-dim">}</span>
+              </div>
+              <p>Frick events are the control-flow graph of behavior — structural boundaries in the timeline. Context switching is an inferred state transition, not a command pair. The system detects it from task binding changes.</p>
+            </div>
+
+            <div class="sid-item">
+              <div class="sid-item-label">Bundy — Derived Intervals</div>
+              <div class="stream-format-block" style="margin:10px 0 12px;">
+<span class="sf-label">Interval</span> <span class="sf-dim">{</span>
+    <span class="sf-op">start</span><span class="sf-dim">: int</span>
+    <span class="sf-op">end</span><span class="sf-dim">: int</span>
+    <span class="sf-op">task_id</span><span class="sf-dim">: optional str</span>
+    <span class="sf-op">confidence</span><span class="sf-dim">: float</span>
+<span class="sf-dim">}</span>
+              </div>
+              <p>Bundy intervals are derived entirely from Frick boundaries — never stored. The same stream can produce different interval segmentations if the Frick reducer rules change, without touching any stored data. Gaps below a threshold are bridged into a single interval, giving more human-meaningful segmentation than raw start/stop pairs.</p>
+            </div>
+
+            <div class="sid-item">
+              <div class="sid-item-label">Regeneration — Long-Term Adaptive State</div>
+              <div class="stream-format-block" style="margin:10px 0 12px;">
+<span class="sf-label">RegenerationState</span> <span class="sf-dim">{</span>
+    <span class="sf-op">fatigue</span><span class="sf-dim">: float</span>
+    <span class="sf-op">elasticity</span><span class="sf-dim">: float</span>
+    <span class="sf-op">crystallization</span><span class="sf-dim">: dict[str, float]</span>
+    <span class="sf-op">fracture_memory</span><span class="sf-dim">: dict[str, float]</span>
+<span class="sf-dim">}</span>
+              </div>
+              <p>Tracks how repeated patterns of work affect system state over longer time horizons than a single session. Update rules: <code>fatigue += avg(fragmentation)</code> · <code>elasticity -= interruption_rate</code> · <code>crystallization[task] += sustained_blocks</code>. Stored via <code>S</code> events as optional snapshots.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── IV — Cooper ── -->
+        <div class="sid-part" id="sid-cooper">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part IV</span>
+            <h4>Cooper: The Geometric Projection Layer</h4>
+          </div>
+          <p>Cooper is not a stored layer. It is a post-replay computation that transforms the Dey time series into a geometric field:</p>
+          <div class="stream-format-block">
+<span class="sf-label">Cooper(t)</span> <span class="sf-dim">= F(Dey(t), Bundy(t), Frick(t))</span>
+
+<span class="sf-label">CooperField(x, y, t)</span> <span class="sf-dim">=</span>
+    <span class="sf-op">α</span> <span class="sf-dim">·</span> <span class="sf-val">Dey(t)</span>
+  <span class="sf-dim">+</span> <span class="sf-op">β</span> <span class="sf-dim">·</span> <span class="sf-val">IntervalDensity(Bundy, t)</span>
+  <span class="sf-dim">+</span> <span class="sf-op">γ</span> <span class="sf-dim">·</span> <span class="sf-val">GraphActivity(Frick, t)</span>
+          </div>
+
+          <table>
+            <thead><tr><th>Dimension</th><th>Source</th><th>Visual encoding</th></tr></thead>
+            <tbody>
+              <tr><td>Angle</td><td>Time of day</td><td>Position around ring</td></tr>
+              <tr><td>Radius</td><td>Dey intensity</td><td>Distance from center</td></tr>
+              <tr><td>Smoothness</td><td>Dey stability</td><td>Edge coherence</td></tr>
+              <tr><td>Deformation</td><td>Dey fragmentation</td><td>Geometric distortion</td></tr>
+            </tbody>
+          </table>
+
+          <p>The result is a <strong>state-space embedding in polar coordinates</strong>. The entire work day becomes a single deformable shape. A focused, productive day produces a smooth ring with consistent radius. A fragmented, interrupted day produces jagged, asymmetric geometry. A collapsed day (overload or abandonment) inverts toward the center.</p>
+
+          <div class="sid-subsection-label">Why This Matters Beyond Visualization</div>
+          <div class="sid-items" style="margin-top:12px;">
+            <div class="sid-item"><div class="sid-item-label">Anomaly detection via geometry divergence</div><p>Normal behavior produces stable ring structure. Anomalies appear as radial bulges (spikes), jagged edges (fragmentation), angular jitter (instability), or radial collapse (overload). Detection becomes distance from canonical manifold — no threshold tuning required.</p></div>
+            <div class="sid-item"><div class="sid-item-label">Geometry-driven agent scheduling</div><p>High-radius zones indicate high-load periods where injecting tasks is costly; stable arcs indicate optimal execution windows; fragmentation zones indicate where context switching should be avoided.</p></div>
+            <div class="sid-item"><div class="sid-item-label">Multi-agent coordination as vector field alignment</div><p>Multiple agents contributing to the same stream each generate Cooper fields that can be overlaid. Overlap produces contention zones; divergence indicates specialization; alignment reveals cooperative execution windows.</p></div>
+            <div class="sid-item"><div class="sid-item-label">Reinforcement learning reward shaping</div><p>Cooper-derived metrics define reward signals without explicit programming: stability up → reward; fragmentation up → penalty; sustained intensity → nonlinear reward curve favoring coherent work trajectories over raw throughput.</p></div>
+            <div class="sid-item"><div class="sid-item-label">Temporal clustering and archetype discovery</div><p>Cooper fields can be clustered by radial density distributions, curvature signatures, and deformation gradients — producing unsupervised discovery of operational archetypes: "types of days," "types of tasks," "types of agent behavior."</p></div>
+            <div class="sid-item"><div class="sid-item-label">Debugging agent failures geometrically</div><p>Looping arcs indicate stuck reasoning. Radial collapse indicates overload. Discontinuities indicate context loss. The failure becomes visible in shape before it appears in logs.</p></div>
+          </div>
+        </div>
+
+        <!-- ── V — Replay Engine ── -->
+        <div class="sid-part" id="sid-replay">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part V</span>
+            <h4>The Replay Engine</h4>
+          </div>
+          <p>The replay engine is the read side of the entire system. Its contract: <code>state = replay(stream, t_end=None)</code></p>
+          <p>Properties: <strong>Pure function</strong> — no side effects, no hidden clocks. <strong>Deterministic</strong> — same input → identical output, always. <strong>No hidden state</strong> — everything reconstructable from the stream.</p>
+          <div class="stream-format-block">
+<span class="sf-dim">def</span> <span class="sf-label">replay</span><span class="sf-dim">(stream, t_end=None):</span>
+    <span class="sf-op">state</span> <span class="sf-dim">= init_state()</span>
+
+    <span class="sf-dim">for</span> <span class="sf-val">e</span> <span class="sf-dim">in stream:</span>
+        <span class="sf-dim">if t_end and e.t > t_end:</span>
+            <span class="sf-dim">break</span>
+        <span class="sf-op">state</span> <span class="sf-dim">= apply(state, e)</span>
+
+    <span class="sf-op">state.cooper</span> <span class="sf-dim">= project_cooper(state.dey)</span>
+    <span class="sf-op">state.regeneration</span> <span class="sf-dim">= update_regen(state)</span>
+
+    <span class="sf-dim">return</span> <span class="sf-op">state</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-muted);">Append-only writes are cheap. Periodic snapshots (<code>S</code> events) allow partial replay: snapshot + tail instead of full stream. Cooper is computed lazily on demand. All derived caches are disposable — rebuildable from the stream at any time.</p>
+
+          <div class="sid-subsection-label">Determinism Requirements</div>
+          <ul class="sid-list">
+            <li>Stream must be ordered by timestamp</li>
+            <li>Reducers must be idempotent</li>
+            <li>No implicit state outside the stream</li>
+            <li>Any randomness must be seeded from stream data</li>
+          </ul>
+        </div>
+
+        <!-- ── VI — Architecture ── -->
+        <div class="sid-part" id="sid-architecture">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part VI</span>
+            <h4>System Architecture (WWSS as Kernel)</h4>
+          </div>
+          <p>WWSS is not a feature — it is the runtime substrate everything else depends on.</p>
+
+          <div class="sid-subsection-label">Position in the Stack</div>
+          <div class="stream-format-block">
+<span class="sf-label">WWSS</span> <span class="sf-comment">(Stream Service)</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">Task adapter</span>      <span class="sf-comment">(Taskwarrior hooks → B and F events)</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">Time adapter</span>      <span class="sf-comment">(F transitions → Timewarrior start/stop)</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">Agent adapters</span>    <span class="sf-comment">(agent inferences → T, D, F events)</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">CLI / UI / APIs</span>   <span class="sf-comment">(read projections, write commands)</span>
+          </div>
+
+          <p>Taskwarrior is no longer the authoritative system — it becomes the identity layer. WWSS is the temporal layer. Identity lives in TaskWarrior; time-shaped reality lives in WWSS.</p>
+
+          <div class="sid-subsection-label">Three Core Responsibilities</div>
+          <div class="sid-items" style="margin-top:12px;">
+            <div class="sid-item"><div class="sid-item-label">1. Ingest</div><p>Accept events from CLI commands, Taskwarrior hooks, Timewarrior hooks, agent processes, and SMM observers. Normalize inputs, enforce schema, assign timestamps.</p></div>
+            <div class="sid-item"><div class="sid-item-label">2. Append-only storage</div><p>Atomic appends to <code>stream.log</code>. No mutation. No updates. No deletes. Idempotent retry handling for duplicate event delivery.</p></div>
+            <div class="sid-item"><div class="sid-item-label">3. Replay + projection API</div><p>Deterministic reconstruction of Dey, Frick, Bundy, task bindings, Cooper geometry, and regeneration state. All views are derived endpoints, not stored data.</p></div>
+          </div>
+
+          <div class="sid-subsection-label">Failure Model</div>
+          <p style="font-size:0.875rem;color:var(--text-muted);">WWSS tolerates missing agent input, delayed Taskwarrior hooks, duplicate events, and partial ingestion. Replay fixes inconsistency; the stream is never corrected, only appended to; contradictions become observable signal — they increase fragmentation in the Dey layer, making them visible in Cooper geometry.</p>
+
+          <div class="sid-subsection-label">System Invariants</div>
+          <ul class="sid-list">
+            <li><strong>Append-only truth</strong> — No modification of history</li>
+            <li><strong>Deterministic replay</strong> — Same stream → same state</li>
+            <li><strong>No hidden state</strong> — Everything reconstructable</li>
+            <li><strong>Time-first model</strong> — All meaning is time-indexed</li>
+          </ul>
+        </div>
+
+        <!-- ── VII — SMM ── -->
+        <div class="sid-part" id="sid-smm">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part VII</span>
+            <h4>The Stream Monitoring Manager (SMM)</h4>
+          </div>
+          <p>The SMM is the active observation subsystem — running inside WWSS, continuously sampling external signals and emitting D events and inferred F transitions.</p>
+          <div class="stream-format-block">
+<span class="sf-val">SMM</span> <span class="sf-dim">→</span> <span class="sf-val">observer plugins</span> <span class="sf-dim">→</span> <span class="sf-val">normalized WW events</span> <span class="sf-dim">→</span> <span class="sf-val">stream</span>
+          </div>
+
+          <div class="sid-subsection-label">Observer Plugins</div>
+          <div class="cmd-grid" style="margin-top:12px;margin-bottom:20px;">
+            <div class="cmd-card">
+              <ul>
+                <li><span class="ci-cmd">TaskObserver</span><span class="ci-note">monitors Taskwarrior state changes</span></li>
+                <li><span class="ci-cmd">TimeObserver</span><span class="ci-note">monitors Timewarrior tracking</span></li>
+                <li><span class="ci-cmd">ShellObserver</span><span class="ci-note">monitors terminal activity</span></li>
+                <li><span class="ci-cmd">FocusObserver</span><span class="ci-note">monitors application focus</span></li>
+                <li><span class="ci-cmd">IdleObserver</span><span class="ci-note">detects idle periods</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="sid-subsection-label">Normalization Rules</div>
+          <div class="stream-format-block">
+<span class="sf-dim">if</span> <span class="sf-val">idle</span><span class="sf-dim">:</span>
+    <span class="sf-dim">emit</span> <span class="sf-op">D</span><span class="sf-dim">(i=</span><span class="sf-val">0.1</span><span class="sf-dim">, s=</span><span class="sf-val">0.4</span><span class="sf-dim">, f=</span><span class="sf-val">0.3</span><span class="sf-dim">)</span>
+
+<span class="sf-dim">if</span> <span class="sf-val">keystroke_rate_high</span><span class="sf-dim">:</span>
+    <span class="sf-dim">emit</span> <span class="sf-op">D</span><span class="sf-dim">(i=</span><span class="sf-val">0.8</span><span class="sf-dim">, s=</span><span class="sf-val">0.9</span><span class="sf-dim">, f=</span><span class="sf-val">0.05</span><span class="sf-dim">)</span>
+
+<span class="sf-dim">if</span> <span class="sf-val">long_idle_gap</span><span class="sf-dim">:</span>
+    <span class="sf-dim">emit</span> <span class="sf-op">F</span><span class="sf-dim">(</span><span class="sf-val">PAUSE</span><span class="sf-dim">)</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-muted);">Sampling is fixed-interval (e.g. 30s) with debounce and thresholds. The SMM can only <em>write</em> events — it can never modify past ones.</p>
+        </div>
+
+        <!-- ── VIII — CLI ── -->
+        <div class="sid-part" id="sid-cli">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part VIII</span>
+            <h4>CLI as Compiler Front-End</h4>
+          </div>
+          <p>Every CLI command is a macro-expansion into stream events. The CLI is not an interface to the system — it is a compiler front-end for a time-structured event machine.</p>
+
+          <div class="sid-subsection-label">Command Taxonomy</div>
+          <div class="cmd-grid" style="margin-top:12px;">
+            <div class="cmd-card">
+              <div class="cc-head">Task lifecycle</div>
+              <ul>
+                <li><span class="ci-cmd">ww task 2 start</span><span class="ci-note">→ F START + B task:2 + D bump</span></li>
+                <li><span class="ci-cmd">ww task 3 start</span><span class="ci-note">→ F SWITCH + B task:3</span></li>
+              </ul>
+            </div>
+            <div class="cmd-card">
+              <div class="cc-head">Stream primitives</div>
+              <ul>
+                <li><span class="ci-cmd">ww emit D 0.5 0.7 0.2</span></li>
+                <li><span class="ci-cmd">ww emit F START</span></li>
+                <li><span class="ci-cmd">ww emit T "note text"</span></li>
+              </ul>
+            </div>
+            <div class="cmd-card">
+              <div class="cc-head">Observation (read-only)</div>
+              <ul>
+                <li><span class="ci-cmd">ww view dey</span></li>
+                <li><span class="ci-cmd">ww view frick</span></li>
+                <li><span class="ci-cmd">ww view bundy</span></li>
+                <li><span class="ci-cmd">ww view cooper</span></li>
+              </ul>
+            </div>
+            <div class="cmd-card">
+              <div class="cc-head">Replay</div>
+              <ul>
+                <li><span class="ci-cmd">ww replay --full</span></li>
+                <li><span class="ci-cmd">ww replay --at 10:30</span></li>
+                <li><span class="ci-cmd">ww replay --from 08:00 --to 12:00</span></li>
+                <li><span class="ci-cmd">ww replay --task 2</span></li>
+              </ul>
+            </div>
+            <div class="cmd-card">
+              <div class="cc-head">Agent interface</div>
+              <ul>
+                <li><span class="ci-cmd">ww agent run optimizer</span></li>
+                <li><span class="ci-cmd">ww agent handoff task:2</span><span class="ci-note">→ F HANDOFF + B + T</span></li>
+              </ul>
+            </div>
+            <div class="cmd-card">
+              <div class="cc-head">System</div>
+              <ul>
+                <li><span class="ci-cmd">ww sync taskwarrior</span></li>
+                <li><span class="ci-cmd">ww sync timewarrior</span></li>
+                <li><span class="ci-cmd">ww daemon start</span></li>
+                <li><span class="ci-cmd">ww smm start</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="sid-subsection-label">The Full Cycle</div>
+          <div class="stream-format-block">
+<span class="sf-val">CLI command</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">event emission</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">stream.log append</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">replay engine</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">derived structures</span> <span class="sf-comment">(Dey / Frick / Bundy)</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">Cooper projection</span>
+   <span class="sf-dim">↓</span>
+<span class="sf-val">CLI views + agent inputs</span>
+          </div>
+        </div>
+
+        <!-- ── IX — Data Formats ── -->
+        <div class="sid-part" id="sid-formats">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part IX</span>
+            <h4>Data Format Specifications</h4>
+          </div>
+
+          <div class="sid-subsection-label">Primary Storage</div>
+          <div class="stream-format-block"><span class="sf-label">stream.log</span>           <span class="sf-comment">← only required artifact</span></div>
+
+          <div class="sid-subsection-label">Derived / Rebuildable Caches</div>
+          <div class="stream-format-block">
+<span class="sf-val">dey.cache</span>            <span class="sf-comment">← CSV: t,i,s,f</span>
+<span class="sf-val">frick.cache</span>          <span class="sf-comment">← CSV: t,type</span>
+<span class="sf-val">bundy.cache</span>          <span class="sf-comment">← CSV: start,end,task</span>
+<span class="sf-val">cooper.cache</span>         <span class="sf-comment">← CSV: angle,radius,s,f</span>
+<span class="sf-val">regen.state</span>          <span class="sf-comment">← key=value: fatigue, elasticity, crystallization</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-muted);">All caches are disposable. The stream is canonical.</p>
+
+          <div class="sid-formats-grid">
+            <div class="sid-format-block">
+              <div class="sid-subsection-label">Dey Cache</div>
+              <div class="stream-format-block" style="margin-bottom:0;"><span class="sf-dim">t,i,s,f</span>
+<span class="sf-val">480</span><span class="sf-dim">,</span><span class="sf-val">0.6</span><span class="sf-dim">,</span><span class="sf-val">0.7</span><span class="sf-dim">,</span><span class="sf-val">0.2</span>
+<span class="sf-val">485</span><span class="sf-dim">,</span><span class="sf-val">0.4</span><span class="sf-dim">,</span><span class="sf-val">0.6</span><span class="sf-dim">,</span><span class="sf-val">0.3</span></div>
+            </div>
+            <div class="sid-format-block">
+              <div class="sid-subsection-label">Frick Cache</div>
+              <div class="stream-format-block" style="margin-bottom:0;"><span class="sf-dim">t,type</span>
+<span class="sf-val">482</span><span class="sf-dim">,</span><span class="sf-val">START</span>
+<span class="sf-val">540</span><span class="sf-dim">,</span><span class="sf-val">PAUSE</span>
+<span class="sf-val">545</span><span class="sf-dim">,</span><span class="sf-val">SWITCH</span></div>
+            </div>
+            <div class="sid-format-block">
+              <div class="sid-subsection-label">Bundy Intervals</div>
+              <div class="stream-format-block" style="margin-bottom:0;"><span class="sf-dim">start,end,task</span>
+<span class="sf-val">480</span><span class="sf-dim">,</span><span class="sf-val">540</span><span class="sf-dim">,</span><span class="sf-val">2</span>
+<span class="sf-val">540</span><span class="sf-dim">,</span><span class="sf-val">600</span><span class="sf-dim">,</span><span class="sf-val">3</span></div>
+            </div>
+            <div class="sid-format-block">
+              <div class="sid-subsection-label">Cooper Points</div>
+              <div class="stream-format-block" style="margin-bottom:0;"><span class="sf-dim">angle,radius,s,f</span>
+<span class="sf-val">0.12</span><span class="sf-dim">,</span><span class="sf-val">0.6</span><span class="sf-dim">,</span><span class="sf-val">0.7</span><span class="sf-dim">,</span><span class="sf-val">0.2</span>
+<span class="sf-val">0.18</span><span class="sf-dim">,</span><span class="sf-val">0.5</span><span class="sf-dim">,</span><span class="sf-val">0.6</span><span class="sf-dim">,</span><span class="sf-val">0.3</span></div>
+            </div>
+            <div class="sid-format-block">
+              <div class="sid-subsection-label">Regeneration State</div>
+              <div class="stream-format-block" style="margin-bottom:0;"><span class="sf-val">fatigue</span><span class="sf-dim">=</span><span class="sf-val">0.42</span>
+<span class="sf-val">elasticity</span><span class="sf-dim">=</span><span class="sf-val">0.71</span>
+<span class="sf-val">build</span><span class="sf-dim">=</span><span class="sf-val">0.8</span>
+<span class="sf-val">debug</span><span class="sf-dim">=</span><span class="sf-val">0.3</span></div>
+            </div>
+            <div class="sid-format-block">
+              <div class="sid-subsection-label">TW Bridge (sync only)</div>
+              <div class="stream-format-block" style="margin-bottom:0;"><span class="sf-dim">ww_task_id,tw_id,active</span>
+<span class="sf-val">2</span><span class="sf-dim">,</span><span class="sf-val">task.abc123</span><span class="sf-dim">,</span><span class="sf-val">true</span>
+<span class="sf-val">3</span><span class="sf-dim">,</span><span class="sf-val">task.def456</span><span class="sf-dim">,</span><span class="sf-val">false</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── X — ASCII Visualization ── -->
+        <div class="sid-part" id="sid-ascii">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part X</span>
+            <h4>ASCII Visualization Layer</h4>
+          </div>
+          <p>The ASCII layer is a deterministic projection of the stream onto a fixed-width character grid — not a fallback, but a first-class rendering that directly maps the same primitives driving the underlying system.</p>
+
+          <table>
+            <thead><tr><th>Layer</th><th>Data type</th><th>ASCII primitive</th></tr></thead>
+            <tbody>
+              <tr><td>Dey</td><td>Continuous signal</td><td>Height / density / block characters</td></tr>
+              <tr><td>Frick</td><td>Discrete events</td><td>Markers: <code>│ ● S P R ↑ ↓</code></td></tr>
+              <tr><td>Bundy</td><td>Intervals</td><td>Horizontal bars</td></tr>
+              <tr><td>Task</td><td>Identity</td><td>Labels / ANSI color</td></tr>
+              <tr><td>Cooper</td><td>Geometry</td><td>Radial / deformed fields</td></tr>
+            </tbody>
+          </table>
+
+          <div class="sid-subsection-label">Rendering Examples</div>
+          <div class="stream-format-block">
+<span class="sf-comment"># Bundy timeline (simplest)</span>
+<span class="sf-label">build  </span><span class="sf-val">███████████████████</span>
+<span class="sf-label">email  </span>     <span class="sf-val">████</span>
+<span class="sf-label">debug  </span>         <span class="sf-val">█████████████</span>
+
+<span class="sf-comment"># Frick event markers</span>
+<span class="sf-label">build  </span><span class="sf-val">███████</span><span class="sf-op">|</span><span class="sf-val">██</span><span class="sf-op">|</span><span class="sf-val">████████</span>
+              <span class="sf-dim">↑  ↑</span>
+           <span class="sf-comment">pause resume</span>
+
+<span class="sf-comment"># Combined Bundy + Dey</span>
+<span class="sf-label">build  </span><span class="sf-val">███████████████████</span>
+       <span class="sf-dim">▁▂▃▄▅▆▇███▇▆▅▄▃▂▁</span>
+
+<span class="sf-comment"># Cooper ring (time-annotated)</span>
+          <span class="sf-dim">12:00</span>
+       <span class="sf-val">██████████</span>
+   <span class="sf-dim">09:00</span> <span class="sf-val">███▓▓▒▒░░</span> <span class="sf-dim">15:00</span>
+       <span class="sf-val">████████▓▓</span>
+          <span class="sf-dim">18:00</span>
+
+<span class="sf-comment"># Multi-layer composite</span>
+<span class="sf-dim">TIME  08:00      09:00      10:00</span>
+<span class="sf-label">TASK  </span><span class="sf-val">build███████████ email██ debug████</span>
+<span class="sf-label">DEY   </span><span class="sf-dim">▁▂▃▄▅▆▇███▇▆▅▄▃▂▁▂▃▄▅▆▇</span>
+<span class="sf-label">FRK   </span><span class="sf-op">S───────P──R───────────S</span>
+          </div>
+        </div>
+
+        <!-- ── XI — Agentic Systems ── -->
+        <div class="sid-part" id="sid-agentic">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part XI</span>
+            <h4>Agentic Systems: The Operational Case</h4>
+          </div>
+          <p>Modern agent systems fail in predictable ways: fragmented memory, no temporal structure, no grounding in operational load. WWSS solves this by giving agents a shared time spine where every action is anchored: <code>time → state → action → outcome</code>.</p>
+
+          <div class="sid-subsection-label">Agents as Stream Citizens</div>
+          <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:16px;">Agents are not external actors. They are deterministic participants in the same event system as humans. No special agent API. No privileged channel. Same stream.</p>
+
+          <div class="stream-format-block">
+<span class="sf-comment"># Reading — agent replays a window:</span>
+<span class="sf-dim">ww replay --from 08:00 --to now</span>
+
+<span class="sf-comment"># Writing — agent appends exactly as a human does:</span>
+<span class="sf-val">510</span> <span class="sf-op">D</span> <span class="sf-val">0.7</span> <span class="sf-val">0.9</span> <span class="sf-val">0.1</span>
+<span class="sf-val">512</span> <span class="sf-op">F</span> <span class="sf-val">SWITCH</span>
+<span class="sf-val">512</span> <span class="sf-op">B</span> <span class="sf-val">task:2</span>
+
+<span class="sf-comment"># Handoff as stream event:</span>
+<span class="sf-op">F</span> <span class="sf-val">HANDOFF</span> <span class="sf-dim">agent=optimizer task:2 context=stream:480-520</span>
+          </div>
+
+          <div class="sid-subsection-label">Self-Regulating Behavior</div>
+          <div class="sid-items" style="margin-top:12px;">
+            <div class="sid-item"><div class="sid-item-label">Fragmentation spike</div><p>Reduce concurrency.</p></div>
+            <div class="sid-item"><div class="sid-item-label">Low stability</div><p>Pause, request clarification.</p></div>
+            <div class="sid-item"><div class="sid-item-label">Sustained high intensity</div><p>Schedule recovery block.</p></div>
+            <div class="sid-item"><div class="sid-item-label">Cooper radial collapse</div><p>Trigger overload alert.</p></div>
+          </div>
+
+          <div class="sid-subsection-label">Eliminating Sessions</div>
+          <p style="font-size:0.875rem;color:var(--text-muted);">Sessions disappear because state is not held in memory — it is reconstructed from the stream. Instead of <code>open session → work → close session</code>, the model is <code>continuous stream → replay at any point → act</code>.</p>
+        </div>
+
+        <!-- ── XII — Industrial ── -->
+        <div class="sid-part" id="sid-industrial">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part XII</span>
+            <h4>Industrial Application</h4>
+          </div>
+          <p>The system maps directly to factory and industrial operations contexts.</p>
+
+          <table>
+            <thead><tr><th>WWSS Layer</th><th>Industrial Equivalent</th></tr></thead>
+            <tbody>
+              <tr><td>Dey</td><td>Sensor telemetry: load, vibration, throughput</td></tr>
+              <tr><td>Frick</td><td>Machine state transitions: start / stop / fault</td></tr>
+              <tr><td>Bundy</td><td>Production runs / shifts</td></tr>
+              <tr><td>Task bindings</td><td>Work orders / maintenance tickets</td></tr>
+              <tr><td>Cooper</td><td>Plant-wide operational "shape" — energy and efficiency field</td></tr>
+            </tbody>
+          </table>
+
+          <p style="font-size:0.875rem;color:var(--text-muted);">What industrial systems currently lack is not data — SCADA, PLC logs, sensor streams, and maintenance tickets already exist. What is missing is a <strong>unified interpretive layer</strong> connecting machine state → human intent → operational rhythm. WWSS provides that layer. The Cooper field becomes a "heat map of time dynamics" — not a chart, not a dashboard, but a topological projection of the entire system.</p>
+        </div>
+
+        <!-- ── XIII — Architecturally Distinctive ── -->
+        <div class="sid-part" id="sid-distinctive">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part XIII</span>
+            <h4>What Makes This Architecturally Distinctive</h4>
+          </div>
+
+          <div class="stream-split">
+            <div class="stream-split-text">
+              <h4>Most operational systems are:</h4>
+              <p><strong>Reactive</strong> — alert-driven, not structurally interpretable.<br>
+              <strong>Fragmented</strong> — one tool per domain, no unified layer.<br>
+              <strong>Non-replayable</strong> — lost history meaning; present state is not derivable from past.</p>
+            </div>
+            <div class="stream-split-text">
+              <h4>WWSS is:</h4>
+              <p><strong>Replayable</strong> — full history is always recoverable.<br>
+              <strong>Unified</strong> — single stream, multiple projections.<br>
+              <strong>Structurally interpretable</strong> — behavior has geometry, not just logs.</p>
+            </div>
+          </div>
+
+          <p>This positions the system closer to <strong>Git for operational reality</strong> — full replay of factory behavior or agent work history — and a <strong>CPU scheduler for human and machine work</strong> — intensity = load, fragmentation = context switching cost, stability = execution coherence. The real innovation is the reduction of all layers to a single time-indexed event tape with deterministic replay: a <em>temporal abstraction layer over operational systems</em> that is both replayable and geometrically interpretable.</p>
+        </div>
+
+        <!-- ── XIV — Implementation Stack ── -->
+        <div class="sid-part" id="sid-implementation">
+          <div class="sid-part-header">
+            <span class="sid-part-num">Part XIV</span>
+            <h4>Implementation Stack</h4>
+          </div>
+
+          <div class="sid-subsection-label">Minimal Viable Implementation (v1)</div>
+          <div class="stream-split" style="margin-bottom:32px;">
+            <div class="stream-split-text">
+              <h4>Required</h4>
+              <ul class="sid-list">
+                <li>Stream writer (append-only log management)</li>
+                <li>Replay engine (pure function, deterministic)</li>
+                <li>Frick boundary reducer</li>
+                <li>Bundy interval builder</li>
+                <li>Taskwarrior wrapper (hook → B/F events)</li>
+                <li>Basic SMM (idle + command + task observers)</li>
+              </ul>
+            </div>
+            <div class="stream-split-text">
+              <h4>Optional for v1</h4>
+              <ul class="sid-list">
+                <li>Cooper renderer</li>
+                <li>Dey cache</li>
+                <li>Regeneration model</li>
+                <li>Timewarrior sync adapter</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="sid-subsection-label">Reference Technology Stack</div>
+          <div class="industrial-grid" style="margin-top:12px;">
+            <div class="industrial-item"><h5>Stream processor</h5><p>Rust or Go — performance, correctness guarantees</p></div>
+            <div class="industrial-item"><h5>Event store</h5><p>SQLite for local; TimescaleDB for time-series at scale</p></div>
+            <div class="industrial-item"><h5>WebSocket server</h5><p>Real-time stream delivery to browser UI</p></div>
+            <div class="industrial-item"><h5>Frontend renderer</h5><p>Canvas or WebGL for Cooper geometry; SVG for simpler views</p></div>
+          </div>
+
+          <div class="sid-subsection-label">Encoding Optimizations (high-frequency / industrial)</div>
+          <div class="stream-format-block">
+<span class="sf-comment"># Delta compression:</span>
+<span class="sf-op">ΔD</span> <span class="sf-val">+0.01</span> <span class="sf-val">+0.01</span> <span class="sf-val">-0.01</span>
+
+<span class="sf-comment"># Bit-packed opcodes:</span>
+<span class="sf-op">F</span><span class="sf-dim">=0001  </span><span class="sf-op">D</span><span class="sf-dim">=0010  </span><span class="sf-op">B</span><span class="sf-dim">=0011  </span><span class="sf-op">T</span><span class="sf-dim">=0100</span>
+
+<span class="sf-comment"># Time quantization:</span>
+<span class="sf-val">t</span> <span class="sf-dim">= delta from previous event</span>
+          </div>
+
+          <div class="sid-subsection-label">The Daemon / Distributed Decision</div>
+          <p style="font-size:0.875rem;color:var(--text-muted);">The most consequential architecture decision: whether WWSS runs as a <strong>daemon (central kernel)</strong> or as a <strong>distributed append-only log with local replicas</strong>. The former fits personal and small-team use. The latter enables industrial-scale and multi-agent deployments where the stream itself becomes the coordination medium across machines.</p>
+        </div>
+
+      </div><!-- /child: stream-in-detail -->
+
+      <!-- ================================================
+           CHILD: VISUALIZE
+           ================================================ -->
+      <div class="child-section" id="visualize">
+        <div class="child-header">
+          <h3>Visualize</h3>
+          <span class="child-slug">#visualize</span>
+        </div>
+
+        <p style="font-size:0.975rem;color:var(--text-muted);max-width:660px;line-height:1.75;margin-bottom:16px;">
+          The ASCII visualization layer is a deterministic projection of the stream onto a
+          fixed-width character grid — not a fallback, but a first-class rendering that maps
+          the same primitives driving the underlying system. Geometry, interval, signal, and
+          identity expressed as characters.
+        </p>
+
+        <!-- ============================================
+             GRANDCHILD: MIDWESTS
+             ============================================ -->
+        <div id="midwests" style="margin-top:40px;">
+          <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:24px;">
+            <h4 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--text-bright);margin:0;letter-spacing:-0.01em;">Midwests</h4>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-light);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:3px 9px;">#midwests</span>
+          </div>
+
+          <p class="gallery-lede">
+            A collection of visualization explorations: ASCII renders of Cooper rings, Bundy
+            timelines, Dey waveforms, Hollerith-encoded stream structures, and multi-layer
+            composites. These images represent an evolving visual language for time-shaped work data.
+          </p>
+
+          <!-- GALLERY — to update: edit the gallery_images array in the script below
+               In Jekyll production: replace this with an assign loop over
+               site.data.cli_gallery or over files in assets/cli/midwests/ -->
+          <div class="gallery-grid" id="gallery-grid">
+            <!-- populated by JS below -->
+          </div>
+
+          <div class="gallery-jekyll-note">
+            <strong style="color:var(--text-bright);font-family:var(--font-display);font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase;">Jekyll integration note</strong><br>
+            In the production Jekyll site, replace the JS-populated gallery with a
+            <code>{% raw %}{% for image in site.data.cli_gallery %}{% endraw %}</code> loop over
+            <code>_data/cli_gallery.yml</code>, or use
+            <code>{% raw %}{% assign imgs = site.static_files | where_exp: "f","f.path contains '/assets/cli/midwests/'" %}{% endraw %}</code>
+            to auto-enumerate images dropped into <code>assets/cli/midwests/</code>.
+            Each entry only needs <code>src</code>, <code>alt</code>, and <code>caption</code>.
+          </div>
+        </div>
+
+      </div><!-- /child: visualize -->
+
+    </div><!-- /wrapper -->
+  </section><!-- /times -->
+
+</div><!-- /cli-page -->
+
+<!-- Lightbox -->
+<div class="gallery-lightbox" id="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lb-close" aria-label="Close">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lb-prev" aria-label="Previous">←</button>
+    <button class="lightbox-nav lightbox-next" id="lb-next" aria-label="Next">→</button>
+    <img id="lb-img" src="" alt="" />
+    <div class="lightbox-caption" id="lb-caption"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ====================================================
+     GALLERY DATA
+     ====================================================
+     To add/remove images: edit this array.
+     In Jekyll production, generate this from _data/cli_gallery.yml instead.
+     Fields: src (relative to site root), alt, caption (shown below image).
+     ================================================== */
+  var GALLERY_IMAGES = [
+    {
+      src: "images/cooper-ascii-one.png",
+      alt: "Cooper ASCII ring — variant one",
+      caption: "Cooper ring — ASCII radial projection, variant one. Intensity as radius; fragmentation as edge deformation."
+    },
+    {
+      src: "images/cooper-ascii-two.png",
+      alt: "Cooper ASCII ring — variant two",
+      caption: "Cooper ring — ASCII variant two. Spaced character density encoding per-layer signal."
+    },
+    {
+      src: "images/dey-enriched-column-clean.png",
+      alt: "Dey enriched column — clean render",
+      caption: "Dey layer — enriched column render. Each row is a 5-minute interval; bar height encodes intensity; texture encodes fragmentation."
+    },
+    {
+      src: "images/dey-frick-flat-clean.png",
+      alt: "Dey + Frick flat — clean",
+      caption: "Dey + Frick composite — flat render. START / PAUSE / RESUME / STOP events overlaid on the continuous signal."
+    },
+    {
+      src: "images/dey-small-block-clean.png",
+      alt: "Dey small block — clean",
+      caption: "Dey layer — small block encoding. Compact fixed-width grid; each cell = one sample period."
+    },
+    {
+      src: "images/cooper-circle-with-gradients.png",
+      alt: "Cooper circle with gradients",
+      caption: "Cooper ring — gradient fill. Smooth-to-rough transition encodes stability gradient across the work day."
+    },
+    {
+      src: "images/cooper-timeline-innovation.png",
+      alt: "Cooper timeline innovation",
+      caption: "Cooper timeline — linear innovation variant. Time on X; intensity on Y; fragmentation as texture fill."
+    },
+    {
+      src: "images/symbolic-cooper-ring-2.png",
+      alt: "Symbolic Cooper ring — variant 2",
+      caption: "Cooper ring — symbolic cell encoding. Each emoji/glyph encodes a distinct operational state at that time position."
+    },
+    {
+      src: "images/horizontal-cooper-symbolic.png",
+      alt: "Horizontal Cooper symbolic",
+      caption: "Cooper — horizontal symbolic layout. Hour rows; task columns; state glyphs at each intersection."
+    },
+    {
+      src: "images/stacked-gradients.png",
+      alt: "Stacked gradients",
+      caption: "Stacked gradient bars — Bundy interval width; Dey intensity as gradient fill density."
+    },
+    {
+      src: "images/bundy-blocks-clean.png",
+      alt: "Bundy blocks — clean",
+      caption: "Bundy intervals — block render. Each row = one task; block width = duration; gaps = Frick PAUSE events."
+    },
+    {
+      src: "images/hollerith-lines.png",
+      alt: "Hollerith encoding — lines",
+      caption: "Hollerith-style encoding — positional stream lines. Fixed-width token layout; column position encodes opcode type."
+    }
+  ];
+
+  /* ── Render gallery ── */
+  var grid = document.getElementById('gallery-grid');
+  if (grid) {
+    GALLERY_IMAGES.forEach(function (img, idx) {
+      var item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.setAttribute('data-idx', idx);
+      item.innerHTML =
+        '<img src="' + img.src + '" alt="' + img.alt + '" loading="lazy" />' +
+        '<div class="gallery-caption"><strong>' + img.alt + '</strong>' + img.caption + '</div>';
+      item.addEventListener('click', function () { openLightbox(idx); });
+      grid.appendChild(item);
+    });
+  }
+
+  /* ── Lightbox ── */
+  var lb         = document.getElementById('gallery-lightbox');
+  var lbImg      = document.getElementById('lb-img');
+  var lbCaption  = document.getElementById('lb-caption');
+  var lbClose    = document.getElementById('lb-close');
+  var lbPrev     = document.getElementById('lb-prev');
+  var lbNext     = document.getElementById('lb-next');
+  var currentIdx = 0;
+
+  function openLightbox(idx) {
+    currentIdx = idx;
+    showSlide(currentIdx);
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function showSlide(idx) {
+    var data = GALLERY_IMAGES[idx];
+    lbImg.src = data.src;
+    lbImg.alt = data.alt;
+    lbCaption.textContent = data.caption;
+  }
+
+  function prevSlide() {
+    currentIdx = (currentIdx - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length;
+    showSlide(currentIdx);
+  }
+
+  function nextSlide() {
+    currentIdx = (currentIdx + 1) % GALLERY_IMAGES.length;
+    showSlide(currentIdx);
+  }
+
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
+  if (lbPrev)  lbPrev.addEventListener('click', prevSlide);
+  if (lbNext)  lbNext.addEventListener('click', nextSlide);
+
+  lb.addEventListener('click', function (e) {
+    if (e.target === lb) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft')  prevSlide();
+    if (e.key === 'ArrowRight') nextSlide();
+  });
+
+  /* ── Page nav scroll-spy ── */
+  var anchors = ['times', 'stream-system', 'stream-in-detail', 'sid-lineage', 'sid-format', 'sid-layers', 'sid-cooper', 'sid-replay', 'sid-architecture', 'sid-smm', 'sid-cli', 'sid-formats', 'sid-ascii', 'sid-agentic', 'sid-industrial', 'sid-distinctive', 'sid-implementation', 'visualize', 'midwests'];
+  var navLinks = document.querySelectorAll('.pnav-item[data-anchor]');
+  var sidLinks = document.querySelectorAll('.sid-nav-link[data-sid]');
+
+  /* sid anchors for the sub-nav */
+  var sidAnchors = ['sid-lineage','sid-format','sid-layers','sid-cooper','sid-replay','sid-architecture','sid-smm','sid-cli','sid-formats','sid-ascii','sid-agentic','sid-industrial','sid-distinctive','sid-implementation'];
+
+  function onScroll() {
+    var scrollTop = window.scrollY + 140;
+
+    /* top-level page nav */
+    var active = anchors[0];
+    anchors.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top + window.scrollY <= scrollTop) {
+        active = id;
+      }
+    });
+    navLinks.forEach(function (link) {
+      link.classList.toggle('active', link.getAttribute('data-anchor') === active);
+    });
+
+    /* sid sub-nav */
+    var sidActive = null;
+    sidAnchors.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top + window.scrollY <= scrollTop) {
+        sidActive = id;
+      }
+    });
+    sidLinks.forEach(function (link) {
+      link.classList.toggle('active', link.getAttribute('data-sid') === sidActive);
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+})();
+</script>
+
+</body>
+</html>
